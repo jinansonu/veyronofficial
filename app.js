@@ -1,6 +1,18 @@
 /* VeyronChain Custom JavaScript Application */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Logo link refresh and scroll to top interaction
+  const headerLogoLink = document.getElementById('header-logo-link');
+  if (headerLogoLink) {
+    headerLogoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        window.location.reload();
+      }, 50);
+    });
+  }
+
   // Intro Splash Screen Sequence
   const introSplash = document.getElementById('intro-splash');
   const introLogo = document.getElementById('intro-logo-container');
