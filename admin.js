@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Base64 storage
   let base64ImageString = "";
+  let selectedFile = null;
 
   // 1. Auth Listener / Session Check
   const checkAuthStatus = () => {
@@ -143,11 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 800 * 1024) { // limit 800KB to safely fit under Firestore's 1MB document size limit
-      alert("Image is too large. Please select a file smaller than 800KB.");
+    // Check size limit: 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image is too large. Please select a file smaller than 5MB.");
       prodImageFile.value = "";
       return;
     }
+
+    selectedFile = file;
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -161,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   removePreviewBtn.addEventListener('click', () => {
     base64ImageString = "";
+    selectedFile = null;
     imagePreview.src = "";
     imagePreviewContainer.classList.add('hidden');
     prodImageFile.value = "";
@@ -236,13 +241,27 @@ document.addEventListener('DOMContentLoaded', () => {
     saveProductBtn.disabled = true;
     saveProductBtn.textContent = "Saving to Database...";
 
+    let finalImageUrl = base64ImageString;
+
+    if (isFirebaseConfigured() && selectedFile) {
+      try {
+        saveProductBtn.textContent = "Uploading image to Firebase Storage...";
+        const storageRef = firebase.storage().ref();
+        const fileRef = storageRef.child(`products/${Date.now()}_${selectedFile.name}`);
+        const snapshot = await fileRef.put(selectedFile);
+        finalImageUrl = await snapshot.ref.getDownloadURL();
+      } catch (storageErr) {
+        console.warn("Firebase Storage upload failed, falling back to base64 storage in Firestore:", storageErr);
+      }
+    }
+
     const product = {
       name: prodName.value.trim(),
       price: parseFloat(prodPrice.value),
       gender: prodGender.value,
       category: prodCategory.value,
       description: prodDesc.value.trim(),
-      image: base64ImageString
+      image: finalImageUrl
     };
 
     try {
@@ -251,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Reset Form
       productForm.reset();
       base64ImageString = "";
+      selectedFile = null;
       imagePreview.src = "";
       imagePreviewContainer.classList.add('hidden');
       fileLabel.textContent = "Choose image file or drag here";
