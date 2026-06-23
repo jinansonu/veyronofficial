@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>VeyronChain | Link Your Legacy</title>
+    
+    <!-- Tailwind CSS with Forms and Container Queries -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Pinyon+Script&amp;family=Allura&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Theme Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "surface": "var(--color-surface)",
+              "on-surface": "var(--color-on-surface)",
+              "on-surface-variant": "var(--color-on-surface-variant)",
+              "primary-container": "var(--color-primary-container)",
+              "secondary": "var(--color-secondary)",
+              "outline-variant": "var(--color-outline-variant)",
+              "background": "var(--color-background)",
+              "on-background": "var(--color-on-background)",
+              "surface-container": "var(--color-surface-container)",
+              "surface-dim": "var(--color-surface-dim)",
+              "surface-container-high": "var(--color-surface-container-high)",
+              "surface-container-highest": "var(--color-surface-container-highest)",
+              "surface-container-lowest": "var(--color-surface-container-lowest)",
+              "surface-container-low": "var(--color-surface-container-low)",
+              "surface-variant": "var(--color-surface-variant)",
+              "primary": "var(--color-primary)",
+              "on-primary": "var(--color-on-primary)",
+              "on-primary-container": "var(--color-on-primary-container)",
+              "tertiary": "var(--color-tertiary)",
+              "on-tertiary": "var(--color-on-tertiary)",
+              "tertiary-container": "var(--color-tertiary-container)",
+              "on-tertiary-container": "var(--color-on-tertiary-container)",
+              "error": "var(--color-error)",
+              "on-error": "var(--color-on-error)",
+              "error-container": "var(--color-error-container)",
+              "on-error-container": "var(--color-on-error-container)",
+              "inverse-surface": "var(--color-inverse-surface)",
+              "inverse-on-surface": "var(--color-inverse-on-surface)",
+              "outline": "var(--color-outline)"
+            },
+            "borderRadius": {
+              "DEFAULT": "0px",
+              "lg": "0px",
+              "xl": "0px",
+              "full": "9999px"
+            },
+            "spacing": {
+              "margin-desktop": "64px",
+              "section-gap": "120px",
+              "margin-mobile": "20px",
+              "container-max": "1280px",
+              "gutter": "24px",
+              "unit": "8px"
+            },
+            "fontFamily": {
+              "display-lg-mobile": ["Libre Caslon Text"],
+              "label-caps": ["Hanken Grotesk"],
+              "headline-md": ["Libre Caslon Text"],
+              "body-lg": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+              "label-sm": ["Hanken Grotesk"],
+              "headline-sm": ["Libre Caslon Text"],
+              "display-lg": ["Libre Caslon Text"]
+            },
+            "fontSize": {
+              "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+              "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "600"}],
+              "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+              "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+              "label-sm": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+              "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "400"}],
+              "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+            },
+            "scale": {
+              "102": "1.02"
+            }
+          },
+        },
+      }
+    </script>
+    
+    <!-- Custom Style Sheet Override -->
+    <link href="styles.css" rel="stylesheet"/>
+</head>
+<body class="antialiased bg-surface text-on-surface">
+    <!-- Intro Splash Screen -->
+    <div id="intro-splash">
+        <div id="intro-logo-container">
+            <img alt="VeyronChain Logo" class="logo-img w-80 md:w-[512px] h-auto" src="assets/logo.jpg"/>
+        </div>
+    </div>
+
+    <!-- Subtle Grain Texture Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Moving Ambient Light Gradients -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
+        <div class="absolute w-[600px] h-[600px] rounded-full bg-taupe/10 dark:bg-secondary/5 blur-[120px] animate-gradient-slow-1"></div>
+        <div class="absolute w-[800px] h-[800px] rounded-full bg-sage/10 dark:bg-tertiary/5 blur-[160px] animate-gradient-slow-2"></div>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop bg-transparent border-b border-outline-variant/10 transition-all duration-500 animate-nav h-[80px]">
+        <div class="flex items-center">
+            <span class="font-display-lg text-2xl text-on-surface select-none font-normal">VeyronChain</span>
+        </div>
+        <nav class="hidden md:flex space-x-12">
+            <a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors duration-300 pb-1" href="#">Home</a>
+            <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors duration-300 pb-1" href="#manifesto">Manifesto</a>
+            <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors duration-300 pb-1" href="#journal">Journal</a>
+            <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors duration-300 pb-1" href="collections.html">Collection</a>
+            <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors duration-300 pb-1" href="#craftsmanship">Craftsmanship</a>
+            <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors duration-300 pb-1" href="#main-footer">Footer</a>
+        </nav>
+        <div class="flex items-center space-x-6">
+            <button id="theme-toggle" class="p-2 text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center" aria-label="Toggle dark mode">
+                <span class="material-symbols-outlined text-2xl">dark_mode</span>
+            </button>
+            <button id="menu-toggle" class="p-2 text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center z-50" aria-label="Toggle navigation menu">
+                <span class="material-symbols-outlined text-2xl">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hamburger Dropdown Menu Overlay -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-[#4A3B32] z-[45] transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center items-center space-y-8 select-none">
+        <nav class="flex flex-col items-center space-y-6">
+            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#">Home</a>
+            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="collections.html">Collection</a>
+            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#manifesto">Manifesto</a>
+            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#journal">Journal</a>
+            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#craftsmanship">Craftsmanship</a>
+            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#main-footer">Footer</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero-section" class="min-h-screen pt-32 flex flex-col md:flex-row items-center justify-center bg-primary-container px-margin-mobile md:px-margin-desktop gap-16 overflow-hidden relative">
+            <!-- Sunlight Glow Overlay -->
+            <div class="sunlight-glow"></div>
+
+            <!-- Leaf Shadow Overlay (SVG) -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden select-none z-[1] opacity-[0.06] dark:opacity-[0.03]">
+                <svg class="w-full h-full" viewBox="0 0 1000 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <filter id="shadow-blur">
+                        <feGaussianBlur stdDeviation="18" />
+                    </filter>
+                    <g filter="url(#shadow-blur)" fill="#251911">
+                        <!-- Main branch -->
+                        <path d="M-100,-100 Q 300,200 800,200" stroke="#251911" stroke-width="12" fill="none"/>
+                        <!-- Leaflets -->
+                        <path d="M 50,0 Q 150,-100 200,-50 Q 150,50 50,0 Z"/>
+                        <path d="M 120,40 Q 250,-60 300,-10 Q 220,90 120,40 Z"/>
+                        <path d="M 200,90 Q 350,10 400,60 Q 320,160 200,90 Z"/>
+                        <path d="M 280,120 Q 450,60 500,110 Q 420,210 280,120 Z"/>
+                        <path d="M 370,140 Q 550,100 600,150 Q 520,250 370,140 Z"/>
+                        <path d="M 460,155 Q 650,130 690,180 Q 600,270 460,155 Z"/>
+                        <!-- Secondary branch leaves -->
+                        <path d="M 10,80 Q -100,200 -50,250 Q 50,150 10,80 Z"/>
+                        <path d="M 80,130 Q -20,280 30,330 Q 130,200 80,130 Z"/>
+                        <path d="M 160,170 Q 60,350 110,400 Q 210,290 160,170 Z"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Premium Micro Details (Top Right of Hero) -->
+            <div class="absolute top-32 right-16 text-right pointer-events-none select-none z-10 hidden lg:block opacity-0 animate-micro-details">
+                <div class="font-label-caps text-[9px] tracking-[0.25em] text-on-surface-variant/80 font-bold">CRAFTED FOR LEGACY</div>
+                <div class="font-label-caps text-[8px] tracking-[0.2em] text-on-surface-variant/40 mt-1">EST. 2026</div>
+            </div>
+
+            <div class="w-full md:w-1/2 space-y-8 relative z-10">
+                <!-- script background text -->
+                <div class="absolute -top-24 -left-16 font-script text-[130px] md:text-[200px] text-secondary opacity-0 pointer-events-none select-none animate-script leading-none">
+                    Legacy Matters
+                </div>
+                
+                <div class="animate-logo w-36 h-auto relative z-10">
+                    <img alt="VeyronChain Logo" class="logo-img w-full h-auto" src="assets/logo.jpg"/>
+                </div>
+
+                <div class="relative z-10">
+                    <!-- Word-by-word heading tagline -->
+                    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg leading-none flex flex-wrap tracking-wide uppercase select-none">
+                        <span class="overflow-hidden inline-block mr-4 md:mr-6 py-1">
+                            <span class="word-objects inline-block transform translate-y-full opacity-0">OBJECTS</span>
+                        </span>
+                        <span class="overflow-hidden inline-block mr-4 md:mr-6 py-1">
+                            <span class="word-of inline-block transform translate-y-full opacity-0">OF</span>
+                        </span>
+                        <span class="overflow-hidden inline-block py-1">
+                            <span class="word-legacy inline-block transform translate-y-full opacity-0">LEGACY</span>
+                        </span>
+                    </h1>
+                    <p class="mt-6 font-body-lg text-body-lg max-w-md text-on-surface-variant opacity-0 animate-desc">
+                        Modern accessories designed for permanence. A collection that marks time but remains timeless.
+                    </p>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="pt-4 relative z-10">
+                    <a href="#collections" class="animate-button inline-block bg-espresso text-cream font-body-md px-8 py-3 rounded-full hover:bg-secondary transition-colors duration-300 select-none opacity-0 font-medium">
+                        Learn more
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product Image Container with Entrance and Flex-Triptych Wrapper -->
+            <div class="w-full md:w-1/2 relative z-10 animate-hero-image-container">
+                <div class="hero-triptych flex flex-row w-full h-[400px] md:h-[550px] gap-2 md:gap-3">
+                    <!-- Column 1: Bracelets -->
+                    <a href="collections.html?category=bracelets" class="hero-triptych-col flex-1 w-full transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden relative group">
+                        <img src="assets/continuous_bracelet.png" alt="Bracelets" class="absolute inset-0 w-full h-full object-cover group-hover:scale-102 transition-transform duration-1000">
+                        <div class="triptych-overlay"></div>
+                        <div class="absolute bottom-6 left-6 text-[#fdfbf7] z-20 pointer-events-none">
+                            <span class="font-label-caps text-[9px] tracking-widest uppercase opacity-75">Essentials</span>
+                            <h4 class="font-display-lg text-lg uppercase leading-none mt-1 font-bold">Bracelets</h4>
+                        </div>
+                    </a>
+                    
+                    <!-- Column 2: Chains -->
+                    <a href="collections.html?category=chains" class="hero-triptych-col flex-1 w-full transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden relative group">
+                        <img src="assets/silver_chain.png" alt="Chains" class="absolute inset-0 w-full h-full object-cover group-hover:scale-102 transition-transform duration-1000">
+                        <div class="triptych-overlay"></div>
+                        <div class="absolute bottom-6 left-6 text-[#fdfbf7] z-20 pointer-events-none">
+                            <span class="font-label-caps text-[9px] tracking-widest uppercase opacity-75">Archival</span>
+                            <h4 class="font-display-lg text-lg uppercase leading-none mt-1 font-bold">Chains</h4>
+                        </div>
+                    </a>
+
+                    <!-- Column 3: Rings -->
+                    <a href="collections.html?category=rings" class="hero-triptych-col flex-1 w-full transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden relative group">
+                        <img src="assets/gold_rings.png" alt="Rings" class="absolute inset-0 w-full h-full object-cover group-hover:scale-102 transition-transform duration-1000">
+                        <div class="triptych-overlay"></div>
+                        <div class="absolute bottom-6 left-6 text-[#fdfbf7] z-20 pointer-events-none">
+                            <span class="font-label-caps text-[9px] tracking-widest uppercase opacity-75">Sculptural</span>
+                            <h4 class="font-display-lg text-lg uppercase leading-none mt-1 font-bold">Rings</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center gap-1 select-none pointer-events-none opacity-0 animate-scroll-indicator">
+                <span class="font-label-caps text-[9px] tracking-[0.3em] text-on-surface-variant/60 font-bold">SCROLL</span>
+                <span class="material-symbols-outlined text-lg text-on-surface-variant/40 animate-bounce">south</span>
+            </div>
+        </section>
+
+        <!-- Manifesto Section -->
+        <section id="manifesto" class="relative flex flex-col items-center justify-center overflow-hidden w-full text-center">
+            <!-- Slow floating cloud texture shapes -->
+            <div class="manifesto-cloud manifesto-cloud-1 absolute rounded-full pointer-events-none"></div>
+            <div class="manifesto-cloud manifesto-cloud-2 absolute rounded-full pointer-events-none"></div>
+
+            <!-- Giant background cursive word for visual texture -->
+            <div class="manifesto-cursive select-none pointer-events-none absolute z-0">
+                Crafted
+            </div>
+
+            <!-- Tiny white luxury sparkles -->
+            <div class="manifesto-sparkle style-sparkle-1">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12,2 L14.5,9.5 L22,12 L14.5,14.5 L12,22 L9.5,14.5 L2,12 L9.5,9.5 Z" /></svg>
+            </div>
+            <div class="manifesto-sparkle style-sparkle-2">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12,2 L14.5,9.5 L22,12 L14.5,14.5 L12,22 L9.5,14.5 L2,12 L9.5,9.5 Z" /></svg>
+            </div>
+            <div class="manifesto-sparkle style-sparkle-3">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3"><path d="M12,2 L14.5,9.5 L22,12 L14.5,14.5 L12,22 L9.5,14.5 L2,12 L9.5,9.5 Z" /></svg>
+            </div>
+            <div class="manifesto-sparkle style-sparkle-4">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12,2 L14.5,9.5 L22,12 L14.5,14.5 L12,22 L9.5,14.5 L2,12 L9.5,9.5 Z" /></svg>
+            </div>
+
+            <div class="manifesto-container relative z-10 flex flex-col items-center justify-center w-full mx-auto space-y-10">
+                <!-- Small Label -->
+                <span class="manifesto-label opacity-0 font-label-caps">
+                    THE MANIFESTO
+                </span>
+
+                <!-- Heading Split by Lines -->
+                <h2 class="manifesto-heading uppercase flex flex-col">
+                    <span class="manifesto-line-wrap overflow-hidden inline-block py-2">
+                        <span class="manifesto-line manifesto-line-1 block transform translate-y-[80px] opacity-0">WE BELIEVE THE THINGS</span>
+                    </span>
+                    <span class="manifesto-line-wrap overflow-hidden inline-block py-2">
+                        <span class="manifesto-line manifesto-line-2 block transform translate-y-[80px] opacity-0">WE WEAR SHOULD</span>
+                    </span>
+                    <span class="manifesto-line-wrap overflow-hidden inline-block py-2">
+                        <span class="manifesto-line manifesto-line-3 block transform translate-y-[80px] opacity-0 relative">
+                            OUTLIVE TRENDS
+                            <span class="manifesto-underline absolute"></span>
+                        </span>
+                    </span>
+                </h2>
+
+                <!-- Divider Line -->
+                <div class="manifesto-divider mx-auto"></div>
+
+                <!-- Body Text -->
+                <p class="manifesto-body mx-auto">
+                    In a world of fast consumption, we pivot toward permanence. Each piece is a digital heirloom, crafted to be passed through generations.
+                </p>
+            </div>
+        </section>
+
+        <!-- Collections Section -->
+        <section id="collections" class="py-16 bg-surface select-none">
+            <!-- Header -->
+            <div class="text-center mb-16 space-y-2 px-margin-mobile md:px-margin-desktop">
+                <span class="font-label-caps text-[10px] tracking-[0.25em] uppercase text-on-surface/50 block reveal-element">The Archive</span>
+                <h3 class="font-display-lg text-4xl md:text-5xl leading-tight text-on-surface uppercase tracking-wide reveal-element">The Collections</h3>
+                <div class="hairline w-16 mx-auto opacity-30"></div>
+            </div>
+            
+            <!-- Grid Layout of Alternating Checkerboard Rows -->
+            <div class="w-full flex flex-col">
+                
+                <!-- Row 1: Chains -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-0 min-h-[450px] lg:min-h-[500px]">
+                    <!-- Left: HD Image -->
+                    <div class="relative overflow-hidden w-full h-[350px] lg:h-auto group">
+                        <img src="assets/silver_chain.png" alt="Archival Chains" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-[#4A3B32]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <!-- Right: Typography Panel (Cream/Ivory Backdrop) -->
+                    <div class="bg-[#FDFBF7] dark:bg-[#2E211B] flex flex-col justify-center p-8 md:p-16 lg:p-24 space-y-4 md:space-y-6">
+                        <span class="font-label-caps text-[10px] tracking-[0.25em] text-[#4A3B32]/60 dark:text-[#fdfbf7]/60 uppercase">Archival</span>
+                        <h2 class="font-display-lg text-2xl md:text-3xl lg:text-4xl uppercase text-[#4A3B32] dark:text-[#fdfbf7] reveal-element">Chains</h2>
+                        <p class="font-body-md text-sm lg:text-base text-[#4A3B32]/80 dark:text-[#fdfbf7]/80 max-w-md leading-relaxed reveal-element">
+                            Raw structural links designed for longevity. Hand-assembled with architectural clasps.
+                        </p>
+                        <div class="pt-2">
+                            <a href="collections.html?category=chains" class="font-label-caps text-xs tracking-widest uppercase border-b border-[#4A3B32]/30 dark:border-[#fdfbf7]/30 pb-1 inline-flex items-center text-[#4A3B32] dark:text-[#fdfbf7] hover:border-[#4A3B32] dark:hover:border-[#fdfbf7] transition-colors group/cta">
+                                Explore Collection <span class="arrow-symbol transition-transform duration-300 ml-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Rings -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-0 min-h-[450px] lg:min-h-[500px]">
+                    <!-- Left: Typography Panel (Warm Taupe Backdrop) -->
+                    <div class="bg-[#B8A99A] dark:bg-[#3b2d25] flex flex-col justify-center p-8 md:p-16 lg:p-24 space-y-4 md:space-y-6 order-2 lg:order-1">
+                        <span class="font-label-caps text-[10px] tracking-[0.25em] text-[#4A3B32]/70 dark:text-[#fdfbf7]/70 uppercase">Sculptural</span>
+                        <h2 class="font-display-lg text-2xl md:text-3xl lg:text-4xl uppercase text-[#4A3B32] dark:text-[#fdfbf7] reveal-element">Rings</h2>
+                        <p class="font-body-md text-sm lg:text-base text-[#4A3B32]/90 dark:text-[#fdfbf7]/90 max-w-md leading-relaxed reveal-element">
+                            Organic curves and bold geometry. Pieces carved to capture form and light.
+                        </p>
+                        <div class="pt-2">
+                            <a href="collections.html?category=rings" class="font-label-caps text-xs tracking-widest uppercase border-b border-[#4A3B32]/30 dark:border-[#fdfbf7]/30 pb-1 inline-flex items-center text-[#4A3B32] dark:text-[#fdfbf7] hover:border-[#4A3B32] dark:hover:border-[#fdfbf7] transition-colors group/cta">
+                                Explore Collection <span class="arrow-symbol transition-transform duration-300 ml-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Right: HD Image -->
+                    <div class="relative overflow-hidden w-full h-[350px] lg:h-auto group order-1 lg:order-2">
+                        <img src="assets/gold_rings.png" alt="Sculptural Rings" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-[#4A3B32]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Watches -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-0 min-h-[450px] lg:min-h-[500px]">
+                    <!-- Left: HD Image -->
+                    <div class="relative overflow-hidden w-full h-[350px] lg:h-auto group">
+                        <img src="assets/luxury_watch.png" alt="Timepieces Watches" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-[#4A3B32]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <!-- Right: Typography Panel (Cream/Ivory Backdrop) -->
+                    <div class="bg-[#FDFBF7] dark:bg-[#2E211B] flex flex-col justify-center p-8 md:p-16 lg:p-24 space-y-4 md:space-y-6">
+                        <span class="font-label-caps text-[10px] tracking-[0.25em] text-[#4A3B32]/60 dark:text-[#fdfbf7]/60 uppercase">Timepieces</span>
+                        <h2 class="font-display-lg text-2xl md:text-3xl lg:text-4xl uppercase text-[#4A3B32] dark:text-[#fdfbf7] reveal-element">Watches</h2>
+                        <p class="font-body-md text-sm lg:text-base text-[#4A3B32]/80 dark:text-[#fdfbf7]/80 max-w-md leading-relaxed reveal-element">
+                            Artisanal horology with automatic movements. A silent statement of permanence.
+                        </p>
+                        <div class="pt-2">
+                            <a href="collections.html?category=watches" class="font-label-caps text-xs tracking-widest uppercase border-b border-[#4A3B32]/30 dark:border-[#fdfbf7]/30 pb-1 inline-flex items-center text-[#4A3B32] dark:text-[#fdfbf7] hover:border-[#4A3B32] dark:hover:border-[#fdfbf7] transition-colors group/cta">
+                                Explore Collection <span class="arrow-symbol transition-transform duration-300 ml-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 4: Bracelets -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-0 min-h-[450px] lg:min-h-[500px]">
+                    <!-- Left: Typography Panel (Warm Taupe Backdrop) -->
+                    <div class="bg-[#B8A99A] dark:bg-[#3b2d25] flex flex-col justify-center p-8 md:p-16 lg:p-24 space-y-4 md:space-y-6 order-2 lg:order-1">
+                        <span class="font-label-caps text-[10px] tracking-[0.25em] text-[#4A3B32]/70 dark:text-[#fdfbf7]/70 uppercase">Essentials</span>
+                        <h2 class="font-display-lg text-2xl md:text-3xl lg:text-4xl uppercase text-[#4A3B32] dark:text-[#fdfbf7] reveal-element">Bracelets</h2>
+                        <p class="font-body-md text-sm lg:text-base text-[#4A3B32]/90 dark:text-[#fdfbf7]/90 max-w-md leading-relaxed reveal-element">
+                            Fluidity meets structure. Our bracelets are forged to withstand the passage of time.
+                        </p>
+                        <div class="pt-2">
+                            <a href="collections.html?category=bracelets" class="font-label-caps text-xs tracking-widest uppercase border-b border-[#4A3B32]/30 dark:border-[#fdfbf7]/30 pb-1 inline-flex items-center text-[#4A3B32] dark:text-[#fdfbf7] hover:border-[#4A3B32] dark:hover:border-[#fdfbf7] transition-colors group/cta">
+                                Explore Collection <span class="arrow-symbol transition-transform duration-300 ml-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Right: HD Image -->
+                    <div class="relative overflow-hidden w-full h-[350px] lg:h-auto group order-1 lg:order-2">
+                        <img src="assets/continuous_bracelet.png" alt="Essentials Bracelets" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-[#4A3B32]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Row 5: Earrings -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-0 min-h-[450px] lg:min-h-[500px]">
+                    <!-- Left: HD Image -->
+                    <div class="relative overflow-hidden w-full h-[350px] lg:h-auto group">
+                        <img src="assets/diamond_earrings.png" alt="Minimalist Earrings" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-[#4A3B32]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <!-- Right: Typography Panel (Cream/Ivory Backdrop) -->
+                    <div class="bg-[#FDFBF7] dark:bg-[#2E211B] flex flex-col justify-center p-8 md:p-16 lg:p-24 space-y-4 md:space-y-6">
+                        <span class="font-label-caps text-[10px] tracking-[0.25em] text-[#4A3B32]/60 dark:text-[#fdfbf7]/60 uppercase">Minimalist</span>
+                        <h2 class="font-display-lg text-2xl md:text-3xl lg:text-4xl uppercase text-[#4A3B32] dark:text-[#fdfbf7] reveal-element">Earrings</h2>
+                        <p class="font-body-md text-sm lg:text-base text-[#4A3B32]/80 dark:text-[#fdfbf7]/80 max-w-md leading-relaxed reveal-element">
+                            Subtle weight and polished geometry. Refined accents for modern legacy.
+                        </p>
+                        <div class="pt-2">
+                            <a href="collections.html?category=earrings" class="font-label-caps text-xs tracking-widest uppercase border-b border-[#4A3B32]/30 dark:border-[#fdfbf7]/30 pb-1 inline-flex items-center text-[#4A3B32] dark:text-[#fdfbf7] hover:border-[#4A3B32] dark:hover:border-[#fdfbf7] transition-colors group/cta">
+                                Explore Collection <span class="arrow-symbol transition-transform duration-300 ml-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 6: Clips & Teeth Clips -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-0 min-h-[450px] lg:min-h-[500px]">
+                    <!-- Left: Typography Panel (Warm Taupe Backdrop) -->
+                    <div class="bg-[#B8A99A] dark:bg-[#3b2d25] flex flex-col justify-center p-8 md:p-16 lg:p-24 space-y-4 md:space-y-6 order-2 lg:order-1">
+                        <span class="font-label-caps text-[10px] tracking-[0.25em] text-[#4A3B32]/70 dark:text-[#fdfbf7]/70 uppercase">The Unconventional</span>
+                        <h2 class="font-display-lg text-2xl md:text-3xl lg:text-4xl uppercase text-[#4A3B32] dark:text-[#fdfbf7] reveal-element">Teeth Clips</h2>
+                        <p class="font-body-md text-sm lg:text-base text-[#4A3B32]/90 dark:text-[#fdfbf7]/90 max-w-md leading-relaxed reveal-element">
+                            Avant-garde dental accessories that redefine boundary lines.
+                        </p>
+                        <div class="pt-2">
+                            <a href="collections.html?category=braces" class="font-label-caps text-xs tracking-widest uppercase border-b border-[#4A3B32]/30 dark:border-[#fdfbf7]/30 pb-1 inline-flex items-center text-[#4A3B32] dark:text-[#fdfbf7] hover:border-[#4A3B32] dark:hover:border-[#fdfbf7] transition-colors group/cta">
+                                Explore Collection <span class="arrow-symbol transition-transform duration-300 ml-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Right: HD Image -->
+                    <div class="relative overflow-hidden w-full h-[350px] lg:h-auto group order-1 lg:order-2">
+                        <img src="assets/teeth_clips.png" alt="Unconventional Teeth Clips" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-[#4A3B32]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Craftsmanship Section -->
+        <section id="craftsmanship" class="relative py-section-gap px-margin-mobile md:px-margin-desktop overflow-hidden flex flex-col items-center justify-center min-h-[90vh]">
+            <!-- Background images cross-fade container -->
+            <div class="absolute inset-0 z-0 bg-[#BFAE9E]">
+                <img id="craft-bg-1" src="assets/craftsmanship_concept.png" alt="Concept Background" class="craft-bg-img active"/>
+                <img id="craft-bg-2" src="assets/craftsmanship_process.png" alt="Process Background" class="craft-bg-img"/>
+                <img id="craft-bg-3" src="assets/craftsmanship_result.png" alt="Result Background" class="craft-bg-img"/>
+                <div class="absolute inset-0 bg-gradient-to-b from-[#BFAE9E]/30 via-transparent to-[#BFAE9E]/40"></div>
+            </div>
+
+            <div class="manifesto-container relative z-10 w-full max-w-[1280px] space-y-12">
+                <!-- Carousel Container -->
+                <div class="relative w-full overflow-visible px-4 md:px-8">
+                    <!-- Navigation Circular Left Arrow -->
+                    <button id="craft-prev" class="carousel-nav-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white flex items-center justify-center text-on-surface shadow-lg hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all z-30" aria-label="Previous Slide">
+                        <span class="material-symbols-outlined font-bold text-lg select-none">chevron_left</span>
+                    </button>
+
+                    <!-- Navigation Circular Right Arrow -->
+                    <button id="craft-next" class="carousel-nav-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-12 h-12 rounded-full bg-white flex items-center justify-center text-on-surface shadow-lg hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all z-30" aria-label="Next Slide">
+                        <span class="material-symbols-outlined font-bold text-lg select-none">chevron_right</span>
+                    </button>
+
+                    <!-- Cards Window -->
+                    <div class="carousel-window overflow-hidden w-full py-6">
+                        <!-- Slide Track -->
+                        <div id="craft-track" class="flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] gap-6 md:gap-8 justify-center">
+                            
+                            <!-- Card 1: Concept -->
+                            <div id="craft-card-1" class="product-card craftsmanship-card active flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#2f241d]/85 border border-white/10 p-8 md:p-12 flex flex-col justify-between min-h-[460px] rounded-[24px]">
+                                <div class="space-y-6">
+                                    <span class="step-num font-label-caps text-xs tracking-widest block text-white/50">01 / Concept</span>
+                                    <h3 class="step-title font-display-lg text-3xl tracking-wide uppercase text-white">DESIGNED WITH INTENTION</h3>
+                                    <p class="step-desc font-body-md text-body-md text-white/70 leading-relaxed">
+                                        Modern jewelry designed with an original and innovative approach. We combine form and texture, matte stone, and steel links into timeless objects.
+                                    </p>
+                                </div>
+                                <div class="pt-8">
+                                    <button class="btn-read-more font-label-caps text-xs px-6 py-2.5 border border-white/20 hover:border-white rounded-full text-white transition-colors duration-300">Read More</button>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Process -->
+                            <div id="craft-card-2" class="product-card craftsmanship-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#2f241d]/85 border border-white/10 p-8 md:p-12 flex flex-col justify-between min-h-[460px] rounded-[24px]">
+                                <div class="space-y-6">
+                                    <span class="step-num font-label-caps text-xs tracking-widest block text-white/50">02 / Process</span>
+                                    <h3 class="step-title font-display-lg text-3xl tracking-wide uppercase text-white">CRAFTED WITH PRECISION</h3>
+                                    <p class="step-desc font-body-md text-body-md text-white/70 leading-relaxed">
+                                        Crafted with a precision process where engineering meets art. Built for permanence and displaying an architectural structure that stands as our definition.
+                                    </p>
+                                </div>
+                                <div class="pt-8">
+                                    <button class="btn-read-more font-label-caps text-xs px-6 py-2.5 border border-white/20 hover:border-white rounded-full text-white transition-colors duration-300">Read More</button>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Result -->
+                            <div id="craft-card-3" class="product-card craftsmanship-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#2f241d]/85 border border-white/10 p-8 md:p-12 flex flex-col justify-between min-h-[460px] rounded-[24px]">
+                                <div class="space-y-6">
+                                    <span class="step-num font-label-caps text-xs tracking-widest block text-white/50">03 / Result</span>
+                                    <h3 class="step-title font-display-lg text-3xl tracking-wide uppercase text-white">BUILT FOR LEGACY</h3>
+                                    <p class="step-desc font-body-md text-body-md text-white/70 leading-relaxed">
+                                        Accessories designed to outlive trends. Crafted to stand the test of generations, marking time while gracefully aging to capture your story.
+                                    </p>
+                                </div>
+                                <div class="pt-8">
+                                    <button class="btn-read-more font-label-caps text-xs px-6 py-2.5 border border-white/20 hover:border-white rounded-full text-white transition-colors duration-300">Read More</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Indicators -->
+                <div id="craft-indicators" class="flex justify-center items-center gap-3 pt-6 select-none z-10">
+                    <!-- Dynamic indicator lines -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Objects -->
+        <section id="featured" class="relative py-section-gap px-margin-mobile md:px-margin-desktop overflow-hidden flex flex-col items-center">
+            <!-- Light luxury background image with CSS blur -->
+            <div class="featured-bg-wrap absolute inset-0 pointer-events-none select-none z-0">
+                <img src="assets/featured_bg.png" alt="Luxury Still Life Background" class="w-full h-full object-cover featured-bg-img"/>
+                <div class="absolute inset-0 bg-gradient-to-b from-[#BFAE9E]/90 via-[#BFAE9E]/85 to-[#BFAE9E]/95"></div>
+            </div>
+
+            <div class="manifesto-container relative z-10 w-full max-w-[1280px] space-y-12">
+                <!-- Section Header -->
+                <div class="flex justify-between items-end border-b border-white/10 pb-6">
+                    <h3 class="featured-title font-serif text-[#F8F5F0]">Featured Objects</h3>
+                    <a href="#collections" class="featured-view-all font-label-caps text-[#F8F5F0] hover:text-white flex items-center gap-2 transition-all">
+                        View All <span class="arrow-icon transition-transform duration-300">→</span>
+                    </a>
+                </div>
+
+                <!-- Carousel Slider Container -->
+                <div class="relative w-full overflow-visible px-4 md:px-8">
+                    <!-- Navigation Circular Left Arrow -->
+                    <button id="carousel-prev" class="carousel-nav-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white flex items-center justify-center text-on-surface shadow-lg hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all z-30" aria-label="Previous Slide">
+                        <span class="material-symbols-outlined font-bold text-lg select-none">chevron_left</span>
+                    </button>
+
+                    <!-- Navigation Circular Right Arrow -->
+                    <button id="carousel-next" class="carousel-nav-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-12 h-12 rounded-full bg-white flex items-center justify-center text-on-surface shadow-lg hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all z-30" aria-label="Next Slide">
+                        <span class="material-symbols-outlined font-bold text-lg select-none">chevron_right</span>
+                    </button>
+
+                    <!-- Cards Window/Wrapper -->
+                    <div class="carousel-window overflow-hidden w-full py-4">
+                        <!-- Slide Track -->
+                        <div id="carousel-track" class="flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] gap-6 md:gap-8">
+                            <!-- Card 1: Silver Chain -->
+                            <div class="product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm">
+                                <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/silver_chain.png" alt="The Cuban Cuban Chain"/>
+                                </div>
+                                <div class="space-y-3 px-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0]">The Cuban Curb</h4>
+                                        <span class="font-body-md text-body-md text-[#E8DDD1]">$1,850</span>
+                                    </div>
+                                    <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2">Solid 925 sterling silver, hand-assembled with a signature architectural clasp.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Emerald Ring -->
+                            <div class="product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm">
+                                <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/emerald_ring.png" alt="The Emerald Cut Ring"/>
+                                </div>
+                                <div class="space-y-3 px-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0]">The Emerald Cut</h4>
+                                        <span class="font-body-md text-body-md text-[#E8DDD1]">$3,400</span>
+                                    </div>
+                                    <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2">Premium green emerald gemstone set with pavé diamond side accents on white gold.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Gold Rings -->
+                            <div class="product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm">
+                                <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/gold_rings.png" alt="The Foundry Band Rings"/>
+                                </div>
+                                <div class="space-y-3 px-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0]">The Foundry Band</h4>
+                                        <span class="font-body-md text-body-md text-[#E8DDD1]">$950</span>
+                                    </div>
+                                    <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2">A pair of solid 18k yellow gold bands, minimal modern aesthetic with a soft matte finish.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Luxury Watch -->
+                            <div class="product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm">
+                                <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/luxury_watch.png" alt="The Horizon Chrono Watch"/>
+                                </div>
+                                <div class="space-y-3 px-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0]">The Horizon Chrono</h4>
+                                        <span class="font-body-md text-body-md text-[#E8DDD1]">$4,200</span>
+                                    </div>
+                                    <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2">Automatic mechanical timepiece in a titanium case with a gold tachymeter bezel.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 5: Continuous Bracelet -->
+                            <div class="product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm">
+                                <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/continuous_bracelet.png" alt="The Infinite Loop Bracelet"/>
+                                </div>
+                                <div class="space-y-3 px-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0]">The Infinite Loop</h4>
+                                        <span class="font-body-md text-body-md text-[#E8DDD1]">$2,100</span>
+                                    </div>
+                                    <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2">Solid 18k rose gold continuous wire bracelet, featuring a seamless secure lock design.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Diamond Earrings -->
+                            <div class="product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm">
+                                <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/diamond_earrings.png" alt="The Solitaire Studs Earrings"/>
+                                </div>
+                                <div class="space-y-3 px-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0]">The Solitaire Studs</h4>
+                                        <span class="font-body-md text-body-md text-[#E8DDD1]">$2,800</span>
+                                    </div>
+                                    <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2">Solitaire round brilliant cut diamonds set in 18k white gold four-prong settings.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Indicators -->
+                <div id="carousel-indicators" class="flex justify-center items-center gap-3 pt-6 select-none z-10">
+                    <!-- JavaScript will dynamically generate indicator bars -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Journal Section -->
+        <section id="journal" class="bg-[#F5EFE6] dark:bg-[#2A1F1A] py-16 md:py-20 px-margin-mobile md:px-margin-desktop transition-colors duration-500 overflow-hidden">
+            <div class="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                
+                <!-- Left column -->
+                <div class="space-y-6 lg:col-span-5">
+                    <span class="font-label-caps text-xs tracking-widest text-on-surface/50 uppercase block">The Journal</span>
+                    <h3 class="font-display-lg text-4xl md:text-5xl text-on-surface tracking-wide leading-tight">Philosophy in Practice</h3>
+                    <p class="font-body-md text-on-surface-variant text-sm md:text-base leading-relaxed opacity-80 max-w-md">
+                        VeyronChain is looping our designs, looks and world gold in our metal blocks line of the concord. From raw elements to final forms, we commit to the creation of sculptural jewelry that outlives trends.
+                    </p>
+                </div>
+                
+                <!-- Right column (Accordion) -->
+                <div class="lg:col-span-7 space-y-2 select-none w-full">
+                    <!-- Accordion Item 1 -->
+                    <div class="journal-accordion-item border-b border-on-surface/10 dark:border-on-surface/5">
+                        <button class="journal-accordion-header w-full py-5 flex justify-between items-center text-left focus:outline-none" aria-expanded="true">
+                            <span class="font-display-md text-sm md:text-base tracking-widest uppercase text-on-surface font-semibold">THE WEIGHT OF INTENTION</span>
+                            <span class="material-symbols-outlined text-xl text-on-surface/60 transition-transform duration-300 transform rotate-180 select-none">expand_more</span>
+                        </button>
+                        <div class="journal-accordion-panel transition-all duration-500 overflow-hidden max-h-[200px] opacity-1">
+                            <p class="font-body-md text-xs md:text-sm text-on-surface-variant pb-6 leading-relaxed opacity-75">
+                                The weight of an object according to relative weight feels to me? It carries the gravity of history, a physical reminder of craftsmanship and memory that stays with you.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 2 -->
+                    <div class="journal-accordion-item border-b border-on-surface/10 dark:border-on-surface/5">
+                        <button class="journal-accordion-header w-full py-5 flex justify-between items-center text-left focus:outline-none" aria-expanded="false">
+                            <span class="font-display-md text-sm md:text-base tracking-widest uppercase text-on-surface font-semibold">WHAT IS BY SYSTEM PROTECT?</span>
+                            <span class="material-symbols-outlined text-xl text-on-surface/60 transition-transform duration-300 select-none">expand_more</span>
+                        </button>
+                        <div class="journal-accordion-panel transition-all duration-500 overflow-hidden max-h-0 opacity-0">
+                            <p class="font-body-md text-xs md:text-sm text-on-surface-variant pb-6 leading-relaxed opacity-75">
+                                Veyron is born with design, for the solid block with elegant and collection for copper, to building the hierarchy of modern heirloom accessories.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 3 -->
+                    <div class="journal-accordion-item border-b border-on-surface/10 dark:border-on-surface/5">
+                        <button class="journal-accordion-header w-full py-5 flex justify-between items-center text-left focus:outline-none" aria-expanded="false">
+                            <span class="font-display-md text-sm md:text-base tracking-widest uppercase text-on-surface font-semibold">THE SOUL OF SCULPTURE</span>
+                            <span class="material-symbols-outlined text-xl text-on-surface/60 transition-transform duration-300 select-none">expand_more</span>
+                        </button>
+                        <div class="journal-accordion-panel transition-all duration-500 overflow-hidden max-h-0 opacity-0">
+                            <p class="font-body-md text-xs md:text-sm text-on-surface-variant pb-6 leading-relaxed opacity-75">
+                                Each piece is carved and hand-finished in our atelier. There are no shortcuts; only pure commitment to material purity, tactile balance, and structural integrity.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="main-footer" class="bg-espresso w-full py-section-gap px-margin-mobile md:px-margin-desktop flex flex-col items-center text-center space-y-12 relative overflow-hidden">
+        
+        <div class="relative z-10 space-y-12 w-full">
+            <div class="font-display-lg text-display-lg text-surface-container-lowest opacity-10 uppercase tracking-widest">VeyronChain</div>
+            <h5 class="font-headline-md text-headline-md text-cream max-w-xl mx-auto">BUILT FOR PERMANENCE.</h5>
+            
+            <nav class="flex flex-wrap justify-center gap-x-12 gap-y-6">
+                <a class="font-label-caps text-label-caps text-surface-variant/80 hover:text-surface-container-lowest transition-colors" href="#">Terms of Service</a>
+                <a class="font-label-caps text-label-caps text-surface-variant/80 hover:text-surface-container-lowest transition-colors" href="#">Privacy Policy</a>
+                <a class="font-label-caps text-label-caps text-surface-variant/80 hover:text-surface-container-lowest transition-colors" href="#">Provenance</a>
+                <a class="font-label-caps text-label-caps text-surface-variant/80 hover:text-surface-container-lowest transition-colors" href="#">Archives</a>
+            </nav>
+            
+            <div class="pt-12 border-t border-white/10 w-full flex flex-col md:flex-row justify-between items-center gap-8">
+                <p class="font-label-caps text-label-caps text-surface-variant/60 flex items-center gap-2">
+                    © 2024 VeyronChain. Built for Permanence.
+                    <a href="admin.html" class="opacity-25 hover:opacity-100 hover:text-white transition-opacity text-[9px] uppercase tracking-widest select-none cursor-pointer pl-2">finish</a>
+                </p>
+                <div class="flex space-x-6">
+                    <a class="text-surface-variant/60 hover:text-white transition-colors" href="#" aria-label="Share page"><span class="material-symbols-outlined">share</span></a>
+                    <a class="text-surface-variant/60 hover:text-white transition-colors" href="#" aria-label="Send email"><span class="material-symbols-outlined">mail</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Acquisition Inquiry Modal -->
+    <div id="inquiry-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md p-4" aria-hidden="true" role="dialog">
+        <div class="modal-container w-full max-w-lg bg-surface border border-outline-variant/30 p-8 md:p-12 relative shadow-2xl">
+            <button id="close-inquiry-modal" class="absolute top-6 right-6 text-on-surface-variant hover:text-on-surface transition-colors" aria-label="Close modal">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
+            <div id="inquiry-form-container">
+                <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Acquisition Inquiry</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-8">Please provide your details below. Our concierge will contact you within one business cycle.</p>
+                
+                <form id="inquiry-form" class="space-y-6">
+                    <div class="relative">
+                        <label class="block font-label-caps text-label-sm text-on-surface-variant mb-2">Full Name</label>
+                        <input type="text" required class="w-full bg-transparent border-b border-outline-variant focus:border-on-surface focus:outline-none py-2 text-on-surface" placeholder="e.g. Eleanor Vance">
+                    </div>
+                    <div class="relative">
+                        <label class="block font-label-caps text-label-sm text-on-surface-variant mb-2">Email Address</label>
+                        <input type="email" required class="w-full bg-transparent border-b border-outline-variant focus:border-on-surface focus:outline-none py-2 text-on-surface" placeholder="e.g. eleanor@example.com">
+                    </div>
+                    <div class="relative">
+                        <label class="block font-label-caps text-label-sm text-on-surface-variant mb-2">Interest Of Piece</label>
+                        <select id="inquiry-interest" class="w-full bg-surface border border-outline-variant focus:border-on-surface focus:outline-none py-3 px-2 text-on-surface font-body-md">
+                            <option value="general">General Provenance Request</option>
+                            <option value="the heritage link">The Heritage Link (Chain)</option>
+                            <option value="sage chronograph">Sage Chronograph (Watch)</option>
+                            <option value="foundry band">Foundry Band (Ring)</option>
+                            <option value="chains">Archival Chains Collection</option>
+                            <option value="watches">Modern Horology Collection</option>
+                            <option value="rings">Sculptural Rings Collection</option>
+                            <option value="bracelets">Continuous Bracelets Collection</option>
+                        </select>
+                    </div>
+                    <div class="relative">
+                        <label class="block font-label-caps text-label-sm text-on-surface-variant mb-2">Message</label>
+                        <textarea required rows="4" class="w-full bg-transparent border-b border-outline-variant focus:border-on-surface focus:outline-none py-2 text-on-surface resize-none" placeholder="State your sizing preferences or custom requests..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-espresso text-cream font-label-caps text-label-caps py-4 hover:opacity-90 transition-opacity">Submit Request</button>
+                </form>
+                
+                <div id="inquiry-success" class="hidden text-center py-12 space-y-6">
+                    <div class="w-16 h-16 border border-tertiary flex items-center justify-center rounded-full mx-auto text-tertiary animate-pulse">
+                        <span class="material-symbols-outlined text-3xl">check</span>
+                    </div>
+                    <h4 class="font-headline-md text-headline-md text-on-surface">Transmission Confirmed</h4>
+                    <p class="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto">Your interest has been logged. An archivist will reach out soon.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Lightbox Modal -->
+    <div id="product-lightbox" class="modal-overlay fixed inset-0 z-[90] flex items-center justify-center bg-black/50 backdrop-blur-md p-4" aria-hidden="true" role="dialog">
+        <div class="modal-container w-full max-w-4xl bg-surface border border-outline-variant/30 flex flex-col md:flex-row relative shadow-2xl max-h-[90vh] overflow-y-auto md:overflow-visible">
+            <button id="close-lightbox" class="absolute top-6 right-6 z-10 text-on-surface-variant hover:text-on-surface transition-colors bg-surface/50 backdrop-blur-md p-2" aria-label="Close details">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
+            
+            <!-- Left side: Image -->
+            <div class="w-full md:w-1/2 aspect-[4/5] md:aspect-auto overflow-hidden bg-primary-container border-b md:border-b-0 md:border-r border-outline-variant/20">
+                <img class="lightbox-img w-full h-full object-cover animate-pulse" src="" alt="Selected product">
+            </div>
+            
+            <!-- Right side: Details -->
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between space-y-8 bg-surface">
+                <div class="space-y-6">
+                    <div>
+                        <span class="font-label-caps text-label-caps tracking-widest text-on-surface-variant uppercase">Featured Object</span>
+                        <h3 class="lightbox-title font-display-lg text-headline-md leading-tight mt-2 text-on-surface"></h3>
+                        <span class="lightbox-price font-body-lg text-body-lg text-secondary inline-block mt-2"></span>
+                    </div>
+                    <p class="lightbox-desc font-body-md text-body-md text-on-surface-variant"></p>
+                    <div class="lightbox-specs space-y-2"></div>
+                </div>
+                
+                <button class="lightbox-inquire w-full bg-espresso text-cream font-label-caps text-label-caps py-4 hover:opacity-90 transition-opacity">Request Acquisition</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
