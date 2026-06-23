@@ -1,12 +1,14 @@
 // Firebase Configuration and Database Fallbacks
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyCRg49iNIf17qEz3LCRNuJR95li3uXLj28",
+  authDomain: "keralam-dine-hub.firebaseapp.com",
+  projectId: "keralam-dine-hub",
+  storageBucket: "keralam-dine-hub.firebasestorage.app",
+  messagingSenderId: "545252751682",
+  appId: "1:545252751682:web:638177ae47bca772d0f0db",
+  measurementId: "G-81LE1JFZ7T"
 };
+
 
 // Check if Firebase is configured
 const isFirebaseConfigured = () => {
