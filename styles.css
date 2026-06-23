@@ -200,6 +200,9 @@ body.loaded footer {
 .dark .logo-img {
   filter: invert(1) brightness(1.5);
 }
+.menu-link:hover .arrow-icon {
+  transform: translateX(8px);
+}
 
 
 /* Intro Splash Screen Styles */
