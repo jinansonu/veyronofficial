@@ -146,3 +146,10 @@ const deleteDbProduct = async (productId) => {
   localStorage.setItem("veyron_products", JSON.stringify(filtered));
   return true;
 };
+
+// Expose variables to window for global access across ES modules
+window.firebaseConfig = firebaseConfig;
+window.isFirebaseConfigured = isFirebaseConfigured;
+window.getDbProducts = getDbProducts;
+window.saveDbProduct = saveDbProduct;
+window.deleteDbProduct = deleteDbProduct;
