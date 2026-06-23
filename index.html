@@ -135,14 +135,32 @@
     </header>
 
     <!-- Hamburger Dropdown Menu Overlay -->
-    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-[#4A3B32] z-[45] transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center items-center space-y-8 select-none">
-        <nav class="flex flex-col items-center space-y-6">
-            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#">Home</a>
-            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="collections.html">Collection</a>
-            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#manifesto">Manifesto</a>
-            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#journal">Journal</a>
-            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#craftsmanship">Craftsmanship</a>
-            <a class="font-display-lg text-3xl text-[#fdfbf7] hover:text-[#CBB89C] transition-colors duration-300 uppercase tracking-widest menu-link" href="#main-footer">Footer</a>
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-surface z-[45] transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center items-center select-none px-margin-mobile md:px-margin-desktop">
+        <nav class="w-full max-w-[320px] md:max-w-[400px] flex flex-col items-center">
+            <a class="flex justify-between items-center w-full py-5 border-b border-on-surface/10 font-display-lg text-2xl text-on-surface hover:text-secondary transition-colors duration-300 uppercase tracking-widest menu-link" href="#">
+                <span>Home</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-on-surface/10 font-display-lg text-2xl text-on-surface hover:text-secondary transition-colors duration-300 uppercase tracking-widest menu-link" href="collections.html">
+                <span>Collection</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-on-surface/10 font-display-lg text-2xl text-on-surface hover:text-secondary transition-colors duration-300 uppercase tracking-widest menu-link" href="#manifesto">
+                <span>Manifesto</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-on-surface/10 font-display-lg text-2xl text-on-surface hover:text-secondary transition-colors duration-300 uppercase tracking-widest menu-link" href="#journal">
+                <span>Journal</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-on-surface/10 font-display-lg text-2xl text-on-surface hover:text-secondary transition-colors duration-300 uppercase tracking-widest menu-link" href="#craftsmanship">
+                <span>Craftsmanship</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-on-surface/10 font-display-lg text-2xl text-on-surface hover:text-secondary transition-colors duration-300 uppercase tracking-widest menu-link" href="#main-footer">
+                <span>Footer</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
         </nav>
     </div>
 
