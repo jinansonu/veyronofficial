@@ -143,8 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) { // limit 2MB for base64 storage efficiency
-      alert("Image is too large. Please select a file smaller than 2MB.");
+    if (file.size > 800 * 1024) { // limit 800KB to safely fit under Firestore's 1MB document size limit
+      alert("Image is too large. Please select a file smaller than 800KB.");
       prodImageFile.value = "";
       return;
     }
