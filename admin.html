@@ -175,9 +175,14 @@
                         <div id="form-error" class="text-error font-body-md text-xs hidden"></div>
                         <div id="form-success" class="text-emerald-600 font-body-md text-xs hidden">Piece saved successfully!</div>
 
-                        <button type="submit" id="save-product-btn" class="w-full bg-espresso text-cream font-label-caps text-label-caps py-4 hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
-                            <span class="material-symbols-outlined text-sm">cloud_upload</span> Upload to Catalog
-                        </button>
+                        <div class="flex flex-col gap-2">
+                            <button type="submit" id="save-product-btn" class="w-full bg-espresso text-cream font-label-caps text-label-caps py-4 hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">cloud_upload</span> Upload to Catalog
+                            </button>
+                            <button type="button" id="cancel-edit-btn" class="w-full border border-outline-variant/60 text-on-surface text-xs font-label-caps py-3.5 hover:bg-espresso/5 hover:border-on-surface transition-all hidden flex justify-center items-center gap-2">
+                                Cancel Edit
+                            </button>
+                        </div>
                     </form>
                 </div>
 
