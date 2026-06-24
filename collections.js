@@ -393,7 +393,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentProduct.image.startsWith('http')) {
           imageUrl = currentProduct.image;
         } else if (!currentProduct.image.startsWith('data:')) {
-          imageUrl = `${window.location.origin}/${currentProduct.image}`;
+          const baseDomain = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'https://veyronofficial.vercel.app'
+            : window.location.origin;
+          imageUrl = `${baseDomain}/${currentProduct.image}`;
         }
       }
       
@@ -402,7 +405,10 @@ document.addEventListener('DOMContentLoaded', () => {
         message += `\n\nProduct Image: ${imageUrl}`;
       } else {
         // Fallback website link for old base64 products
-        message += `\n\nLink: ${window.location.origin}${window.location.pathname}?id=${currentProduct.id}`;
+        const baseDomain = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+          ? 'https://veyronofficial.vercel.app'
+          : window.location.origin;
+        message += `\n\nLink: ${baseDomain}${window.location.pathname}?id=${currentProduct.id}`;
       }
       
       const encodedMsg = encodeURIComponent(message);
