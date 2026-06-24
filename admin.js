@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="font-display-md text-sm uppercase text-on-surface font-semibold leading-tight">${prod.name}</h4>
               <p class="font-body-md text-xs text-on-surface-variant mt-1">${prod.category} • ${prod.gender}</p>
-              <p class="font-label-caps text-xs text-espresso font-bold mt-1">$${prod.price}</p>
+              <p class="font-label-caps text-xs text-espresso font-bold mt-1">₹${prod.price.toLocaleString()}</p>
             </div>
           </div>
           <button class="btn-delete text-error hover:bg-error-container/20 p-2 rounded-full transition-colors flex items-center justify-center" data-id="${prod.id}" aria-label="Delete product">
