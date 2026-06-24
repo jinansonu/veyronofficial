@@ -48,7 +48,7 @@ const getDbProducts = async () => {
     {
       id: "mock-1",
       name: "Fancy Cuban Link Chain",
-      price: 1200,
+      price: 99999,
       category: "neck chains fancy",
       gender: "all",
       description: "A fancy double-lock Cuban link chain crafted in premium silver, hand-assembled.",
@@ -57,7 +57,7 @@ const getDbProducts = async () => {
     {
       id: "mock-2",
       name: "Champagne Stack Rings",
-      price: 850,
+      price: 69999,
       category: "finger rings",
       gender: "female",
       description: "Fine yellow gold band set, featuring a micro-pavé finish and tactile ribbed details.",
@@ -66,7 +66,7 @@ const getDbProducts = async () => {
     {
       id: "mock-3",
       name: "Talon Hoop Earrings",
-      price: 650,
+      price: 54999,
       category: "earrings",
       gender: "all",
       description: "Minimalist hoops with a sharp aesthetic twist. Sold as a pair.",
@@ -75,7 +75,7 @@ const getDbProducts = async () => {
     {
       id: "mock-4",
       name: "Helix Unisex Cuff",
-      price: 900,
+      price: 74999,
       category: "bracelet unisex",
       gender: "all",
       description: "Forged steel wire cuff bracelet. Flexible, modern, and built for everyone.",
@@ -84,7 +84,7 @@ const getDbProducts = async () => {
     {
       id: "mock-5",
       name: "Signature Teeth Grill",
-      price: 1800,
+      price: 149999,
       category: "teeth braces fashion",
       gender: "all",
       description: "Custom gold fashion grill, designed to clip securely onto teeth for editorial styling.",
@@ -93,7 +93,7 @@ const getDbProducts = async () => {
     {
       id: "mock-6",
       name: "Horizon Steel Chrono",
-      price: 450,
+      price: 39999,
       category: "watches not luxury",
       gender: "male",
       description: "A durable steel watch featuring a green dial, automatic calendar movements.",
