@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prodImageFile = document.getElementById('prod-image-file');
   const fileLabel = document.getElementById('file-label');
   const imagePreviewContainer = document.getElementById('image-preview-container');
-  const imagePreview = document.getElementById('image-preview');
+  const previewGrid = document.getElementById('preview-grid');
   const removePreviewBtn = document.getElementById('remove-preview');
   
   const formError = document.getElementById('form-error');
@@ -33,10 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const catalogCount = document.getElementById('catalog-count');
   const resetCatalogBtn = document.getElementById('reset-catalog-btn');
   const logoutBtn = document.getElementById('logout-btn');
-
+ 
   // Base64 and File storage
-  let base64ImageString = "";
-  let selectedImageFile = null;
+  let base64ImageStrings = [];
+  let selectedImageFiles = [];
 
   // 1. Auth Listener / Session Check
   const checkAuthStatus = () => {
@@ -143,34 +143,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Image to Base64 file conversions
   prodImageFile.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
-    if (file.size > 3 * 1024 * 1024) { // limit 3MB for Telegra.ph upload limit
-      alert("Image is too large. Please select a file smaller than 3MB.");
+    // Filter files larger than 4MB to prevent huge memory usage
+    const validFiles = files.filter(file => {
+      if (file.size > 4 * 1024 * 1024) {
+        alert(`File ${file.name} is too large. Images must be smaller than 4MB.`);
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) {
       prodImageFile.value = "";
       return;
     }
 
-    selectedImageFile = file;
+    selectedImageFiles = validFiles;
+    base64ImageStrings = [];
+    previewGrid.innerHTML = "";
+    imagePreviewContainer.classList.remove('hidden');
+    fileLabel.textContent = `${validFiles.length} image(s) selected`;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      base64ImageString = reader.result;
-      imagePreview.src = base64ImageString;
-      imagePreviewContainer.classList.remove('hidden');
-      fileLabel.textContent = file.name;
-    };
-    reader.readAsDataURL(file);
+    validFiles.forEach((file, idx) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        base64ImageStrings[idx] = reader.result;
+        
+        // Add to visual preview grid
+        const imgWrapper = document.createElement('div');
+        imgWrapper.className = 'aspect-square border border-outline-variant/30 rounded overflow-hidden relative shadow-sm bg-surface-variant';
+        
+        imgWrapper.innerHTML = `
+          <img class="w-full h-full object-cover" src="${reader.result}" alt="Preview image ${idx+1}"/>
+          <span class="absolute top-1 left-1 bg-black/60 text-white text-[9px] px-1 rounded-sm">${idx+1}</span>
+        `;
+        previewGrid.appendChild(imgWrapper);
+      };
+      reader.readAsDataURL(file);
+    });
   });
 
   removePreviewBtn.addEventListener('click', () => {
-    selectedImageFile = null;
-    base64ImageString = "";
-    imagePreview.src = "";
+    selectedImageFiles = [];
+    base64ImageStrings = [];
+    previewGrid.innerHTML = "";
     imagePreviewContainer.classList.add('hidden');
     prodImageFile.value = "";
-    fileLabel.textContent = "Choose image file or drag here";
+    fileLabel.textContent = "Choose one or more image files or drag here";
   });
 
   // 3. Product Catalog loader
@@ -233,8 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
     formError.classList.add('hidden');
     formSuccess.classList.add('hidden');
     
-    if (!base64ImageString) {
-      formError.textContent = "Please upload a product visual image.";
+    if (base64ImageStrings.length === 0) {
+      formError.textContent = "Please upload at least one product visual image.";
       formError.classList.remove('hidden');
       return;
     }
@@ -242,56 +263,66 @@ document.addEventListener('DOMContentLoaded', () => {
     saveProductBtn.disabled = true;
     saveProductBtn.textContent = "Saving to Database...";
 
-    let imageUrl = base64ImageString;
+    let imageUrls = [];
 
-    // Host image publicly on GitHub to allow WhatsApp image previews and bypass Firestore limits
-    if (selectedImageFile) {
-      try {
-        saveProductBtn.textContent = "Hosting image on GitHub...";
-        
-        const token = "gh" + "p_" + "pV8" + "Nhpk" + "FORN" + "1bv" + "SCYW" + "A7Fc" + "loKl" + "otx4" + "4NdY" + "Jy";
-        const owner = 'jinansonu';
-        const repo = 'veyronofficial';
-        const branch = 'main';
-        
-        const extension = selectedImageFile.name.split('.').pop() || 'png';
-        const fileName = `prod_${Date.now()}.${extension}`;
-        
-        // Extract raw base64 content
-        const contentBase64 = base64ImageString.split(',')[1];
-        const uploadUrl = `https://api.github.com/repos/${owner}/${repo}/contents/uploads/${fileName}`;
-        
-        const response = await fetch(uploadUrl, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Upload product image ${fileName} from admin panel`,
-            content: contentBase64,
-            branch: branch
-          })
-        });
-        
-        const uploadResult = await response.json();
-        
-        if (response.ok && uploadResult.content && uploadResult.content.html_url) {
-          imageUrl = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/uploads/${fileName}`;
-          console.log("Image hosted successfully on GitHub CDN:", imageUrl);
-        } else {
-          throw new Error(uploadResult.message || "GitHub upload failed");
-        }
-      } catch (err) {
-        console.warn("Failed to upload image to GitHub, using base64 fallback:", err);
-        if (selectedImageFile.size > 800 * 1024) {
-          formError.textContent = "GitHub image hosting failed, and image is too large to save offline. Please select a smaller file (under 800KB).";
-          formError.classList.remove('hidden');
-          saveProductBtn.disabled = false;
-          saveProductBtn.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_upload</span> Upload to Catalog';
-          return;
+    // Host images publicly on GitHub to allow WhatsApp image previews and bypass Firestore limits
+    if (selectedImageFiles.length > 0) {
+      const token = "gh" + "p_" + "pV8" + "Nhpk" + "FORN" + "1bv" + "SCYW" + "A7Fc" + "loKl" + "otx4" + "4NdY" + "Jy";
+      const owner = 'jinansonu';
+      const repo = 'veyronofficial';
+      const branch = 'main';
+
+      for (let i = 0; i < selectedImageFiles.length; i++) {
+        const file = selectedImageFiles[i];
+        const base64Str = base64ImageStrings[i];
+        saveProductBtn.textContent = `Hosting image (${i + 1}/${selectedImageFiles.length})...`;
+
+        try {
+          const extension = file.name.split('.').pop() || 'png';
+          const fileName = `prod_${Date.now()}_${i}.${extension}`;
+          
+          // Extract raw base64 content
+          const contentBase64 = base64Str.split(',')[1];
+          const uploadUrl = `https://api.github.com/repos/${owner}/${repo}/contents/uploads/${fileName}`;
+          
+          const response = await fetch(uploadUrl, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              message: `Upload product image ${fileName} from admin panel`,
+              content: contentBase64,
+              branch: branch
+            })
+          });
+          
+          const uploadResult = await response.json();
+          
+          if (response.ok && uploadResult.content && uploadResult.content.html_url) {
+            const publicUrl = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/uploads/${fileName}`;
+            imageUrls.push(publicUrl);
+            console.log("Hosted on GitHub:", publicUrl);
+          } else {
+            throw new Error(uploadResult.message || "GitHub upload failed");
+          }
+        } catch (err) {
+          console.warn("Failed to upload image to GitHub:", err);
+          // Fallback to base64 if it's a single image and fits under Firestore limits
+          if (selectedImageFiles.length === 1 && base64Str.length < 800 * 1024) {
+            imageUrls.push(base64Str);
+          }
         }
       }
+    }
+
+    if (imageUrls.length === 0) {
+      formError.textContent = "Image hosting failed. Please try with smaller images or check your connection.";
+      formError.classList.remove('hidden');
+      saveProductBtn.disabled = false;
+      saveProductBtn.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_upload</span> Upload to Catalog';
+      return;
     }
 
     const product = {
@@ -300,7 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
       gender: prodGender.value,
       category: prodCategory.value,
       description: prodDesc.value.trim(),
-      image: imageUrl,
+      image: imageUrls[0], // primary image URL for backward compatibility
+      images: imageUrls,   // array of all image URLs
       originalPrice: prodOriginalPrice.value ? parseFloat(prodOriginalPrice.value) : null,
       offerPercentage: prodOfferPercentage.value ? parseFloat(prodOfferPercentage.value) : null
     };
@@ -310,11 +342,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Reset Form
       productForm.reset();
-      selectedImageFile = null;
-      base64ImageString = "";
-      imagePreview.src = "";
+      selectedImageFiles = [];
+      base64ImageStrings = [];
+      previewGrid.innerHTML = "";
       imagePreviewContainer.classList.add('hidden');
-      fileLabel.textContent = "Choose image file or drag here";
+      fileLabel.textContent = "Choose one or more image files or drag here";
       
       formSuccess.classList.remove('hidden');
       setTimeout(() => formSuccess.classList.add('hidden'), 4000);
