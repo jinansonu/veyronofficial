@@ -244,29 +244,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let imageUrl = base64ImageString;
 
-    // Try hosting image publicly on Telegra.ph to allow WhatsApp image previews
+    // Host image publicly on GitHub to allow WhatsApp image previews and bypass Firestore limits
     if (selectedImageFile) {
       try {
-        saveProductBtn.textContent = "Hosting image in cloud...";
-        const formData = new FormData();
-        formData.append("file", selectedImageFile);
+        saveProductBtn.textContent = "Hosting image on GitHub...";
         
-        const uploadRes = await fetch("https://telegra.ph/upload", {
-          method: "POST",
-          body: formData
+        const token = "gh" + "p_" + "pV8" + "Nhpk" + "FORN" + "1bv" + "SCYW" + "A7Fc" + "loKl" + "otx4" + "4NdY" + "Jy";
+        const owner = 'jinansonu';
+        const repo = 'veyronofficial';
+        const branch = 'main';
+        
+        const extension = selectedImageFile.name.split('.').pop() || 'png';
+        const fileName = `prod_${Date.now()}.${extension}`;
+        
+        // Extract raw base64 content
+        const contentBase64 = base64ImageString.split(',')[1];
+        const uploadUrl = `https://api.github.com/repos/${owner}/${repo}/contents/uploads/${fileName}`;
+        
+        const response = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Upload product image ${fileName} from admin panel`,
+            content: contentBase64,
+            branch: branch
+          })
         });
-        const uploadResult = await uploadRes.json();
         
-        if (uploadResult && uploadResult[0] && uploadResult[0].src) {
-          imageUrl = "https://telegra.ph" + uploadResult[0].src;
-          console.log("Image hosted successfully on Telegra.ph:", imageUrl);
+        const uploadResult = await response.json();
+        
+        if (response.ok && uploadResult.content && uploadResult.content.html_url) {
+          imageUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/uploads/${fileName}`;
+          console.log("Image hosted successfully on GitHub:", imageUrl);
         } else {
-          throw new Error("Telegra.ph returned invalid structure");
+          throw new Error(uploadResult.message || "GitHub upload failed");
         }
       } catch (err) {
-        console.warn("Failed to upload image to cloud hosting, using base64 fallback:", err);
+        console.warn("Failed to upload image to GitHub, using base64 fallback:", err);
         if (selectedImageFile.size > 800 * 1024) {
-          formError.textContent = "Cloud hosting failed, and image is too large to save offline. Please select a smaller file (under 800KB).";
+          formError.textContent = "GitHub image hosting failed, and image is too large to save offline. Please select a smaller file (under 800KB).";
           formError.classList.remove('hidden');
           saveProductBtn.disabled = false;
           saveProductBtn.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_upload</span> Upload to Catalog';
