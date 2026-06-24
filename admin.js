@@ -277,8 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const uploadResult = await response.json();
         
         if (response.ok && uploadResult.content && uploadResult.content.html_url) {
-          imageUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/uploads/${fileName}`;
-          console.log("Image hosted successfully on GitHub:", imageUrl);
+          imageUrl = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/uploads/${fileName}`;
+          console.log("Image hosted successfully on GitHub CDN:", imageUrl);
         } else {
           throw new Error(uploadResult.message || "GitHub upload failed");
         }
