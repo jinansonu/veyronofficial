@@ -265,13 +265,15 @@ document.addEventListener('DOMContentLoaded', () => {
       currentImagesList = [product.image];
     }
 
-    // Toggle navigation arrow visibility
+    // Toggle navigation arrow visibility and cursor pointers
     if (currentImagesList.length > 1) {
       singlePrevImgBtn.classList.remove('hidden');
       singleNextImgBtn.classList.remove('hidden');
+      singleMainImg.classList.add('cursor-pointer');
     } else {
       singlePrevImgBtn.classList.add('hidden');
       singleNextImgBtn.classList.add('hidden');
+      singleMainImg.classList.remove('cursor-pointer');
     }
 
     // View switches
@@ -484,7 +486,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Arrow navigation click handlers
+  // Arrow navigation click handlers and main image click cycling
+  if (singleMainImg) {
+    singleMainImg.addEventListener('click', () => {
+      if (currentImagesList.length <= 1) return;
+      let newIdx = activeImgIndex + 1;
+      if (newIdx >= currentImagesList.length) newIdx = 0;
+      changeActiveImage(newIdx);
+    });
+  }
+
   if (singlePrevImgBtn) {
     singlePrevImgBtn.addEventListener('click', () => {
       if (currentImagesList.length <= 1) return;
