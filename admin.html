@@ -160,13 +160,15 @@
                         <div>
                             <label class="block font-label-caps text-label-sm text-on-surface-variant mb-1">Upload Visual (Image)</label>
                             <div class="relative border border-dashed border-outline-variant/60 hover:border-on-surface py-6 text-center cursor-pointer transition-colors mt-2" id="file-dropzone">
-                                <input type="file" id="prod-image-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                <input type="file" id="prod-image-file" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                                 <span class="material-symbols-outlined text-3xl text-on-surface-variant/40 block mb-1">image</span>
-                                <span class="font-body-md text-xs text-on-surface-variant" id="file-label">Choose image file or drag here</span>
+                                <span class="font-body-md text-xs text-on-surface-variant" id="file-label">Choose one or more image files or drag here</span>
                             </div>
-                            <div id="image-preview-container" class="hidden mt-4 text-center">
-                                <img id="image-preview" src="" alt="Product Preview" class="max-h-40 mx-auto border border-outline-variant/30 rounded-lg shadow-sm">
-                                <button type="button" id="remove-preview" class="text-error font-body-md text-xs mt-2 hover:underline">Remove image</button>
+                            <div id="image-preview-container" class="hidden mt-4 space-y-4">
+                                <div id="preview-grid" class="grid grid-cols-3 gap-2">
+                                    <!-- Dynamic previews loaded here -->
+                                </div>
+                                <button type="button" id="remove-preview" class="text-error font-body-md text-xs hover:underline block mx-auto">Remove all images</button>
                             </div>
                         </div>
 
