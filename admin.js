@@ -142,6 +142,48 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2. Image to Base64 file conversions
+  const renderPreviewGrid = () => {
+    previewGrid.innerHTML = "";
+    if (selectedImageFiles.length === 0) {
+      imagePreviewContainer.classList.add('hidden');
+      prodImageFile.value = "";
+      fileLabel.textContent = "Choose one or more image files or drag here";
+      return;
+    }
+
+    imagePreviewContainer.classList.remove('hidden');
+    fileLabel.textContent = `${selectedImageFiles.length} image(s) selected`;
+
+    selectedImageFiles.forEach((file, idx) => {
+      const base64Str = base64ImageStrings[idx];
+      if (!base64Str) return;
+
+      const imgWrapper = document.createElement('div');
+      imgWrapper.className = 'aspect-square border border-outline-variant/30 rounded overflow-hidden relative shadow-sm bg-surface-variant group';
+
+      imgWrapper.innerHTML = `
+        <img class="w-full h-full object-cover" src="${base64Str}" alt="Preview image ${idx+1}"/>
+        <span class="absolute top-1 left-1 bg-black/60 text-white text-[9px] px-1 rounded-sm">${idx+1}</span>
+        <button type="button" class="btn-remove-single absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs transition-colors shadow" data-index="${idx}" aria-label="Remove image">
+          ×
+        </button>
+      `;
+
+      imgWrapper.querySelector('.btn-remove-single').addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeSingleImage(idx);
+      });
+
+      previewGrid.appendChild(imgWrapper);
+    });
+  };
+
+  const removeSingleImage = (index) => {
+    selectedImageFiles.splice(index, 1);
+    base64ImageStrings.splice(index, 1);
+    renderPreviewGrid();
+  };
+
   prodImageFile.addEventListener('change', (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
@@ -160,26 +202,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    selectedImageFiles = validFiles;
-    base64ImageStrings = [];
-    previewGrid.innerHTML = "";
-    imagePreviewContainer.classList.remove('hidden');
-    fileLabel.textContent = `${validFiles.length} image(s) selected`;
-
-    validFiles.forEach((file, idx) => {
+    let filesLoaded = 0;
+    validFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        base64ImageStrings[idx] = reader.result;
-        
-        // Add to visual preview grid
-        const imgWrapper = document.createElement('div');
-        imgWrapper.className = 'aspect-square border border-outline-variant/30 rounded overflow-hidden relative shadow-sm bg-surface-variant';
-        
-        imgWrapper.innerHTML = `
-          <img class="w-full h-full object-cover" src="${reader.result}" alt="Preview image ${idx+1}"/>
-          <span class="absolute top-1 left-1 bg-black/60 text-white text-[9px] px-1 rounded-sm">${idx+1}</span>
-        `;
-        previewGrid.appendChild(imgWrapper);
+        selectedImageFiles.push(file);
+        base64ImageStrings.push(reader.result);
+        filesLoaded++;
+        if (filesLoaded === validFiles.length) {
+          prodImageFile.value = ""; // Reset input so same files can be selected again
+          renderPreviewGrid();
+        }
       };
       reader.readAsDataURL(file);
     });
@@ -188,10 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   removePreviewBtn.addEventListener('click', () => {
     selectedImageFiles = [];
     base64ImageStrings = [];
-    previewGrid.innerHTML = "";
-    imagePreviewContainer.classList.add('hidden');
-    prodImageFile.value = "";
-    fileLabel.textContent = "Choose one or more image files or drag here";
+    renderPreviewGrid();
   });
 
   // 3. Product Catalog loader
