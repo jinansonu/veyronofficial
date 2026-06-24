@@ -127,12 +127,16 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="space-y-2 px-1">
               <div class="flex justify-between items-baseline gap-2">
                 <h4 class="font-display-md text-sm uppercase text-on-surface font-semibold leading-tight">${prod.name}</h4>
-                <span class="font-label-caps text-xs text-espresso font-bold flex-none">$${prod.price.toLocaleString()}</span>
+                <span class="font-label-caps text-xs text-espresso font-bold flex-none">₹${prod.price.toLocaleString()}</span>
               </div>
               <p class="font-body-md text-xs text-on-surface-variant line-clamp-3 leading-relaxed">${prod.description}</p>
             </div>
           </div>
         `;
+        
+        card.addEventListener('click', () => {
+          window.location.href = `product.html?id=${prod.id}`;
+        });
         
         productsResultGrid.appendChild(card);
       });
