@@ -385,18 +385,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (singleBuyNowBtn) {
-    singleBuyNowBtn.addEventListener('click', () => {
+    singleBuyNowBtn.addEventListener('click', async () => {
       if (!currentProduct) return;
-      let message = `Hey I need this '${currentProduct.name}'`;
+      
+      const originalBtnText = singleBuyNowBtn.innerHTML;
+      singleBuyNowBtn.disabled = true;
+      singleBuyNowBtn.innerHTML = '<span class="animate-pulse">Preparing Checkout...</span>';
+      
+      let imageUrl = "";
+      
       if (currentProduct.image) {
         if (currentProduct.image.startsWith('http')) {
-          message += `\n\nProduct Image: ${currentProduct.image}`;
-        } else if (!currentProduct.image.startsWith('data:')) {
-          message += `\n\nProduct Image: ${window.location.origin}/${currentProduct.image}`;
+          imageUrl = currentProduct.image;
+        } else if (currentProduct.image.startsWith('data:')) {
+          // Upload base64 image dynamically to Telegra.ph to generate a public link
+          try {
+            const blob = await (await fetch(currentProduct.image)).blob();
+            const file = new File([blob], "product.png", { type: blob.type });
+            
+            const formData = new FormData();
+            formData.append("file", file);
+            
+            const uploadRes = await fetch("https://telegra.ph/upload", {
+              method: "POST",
+              body: formData
+            });
+            const uploadResult = await uploadRes.json();
+            if (uploadResult && uploadResult[0] && uploadResult[0].src) {
+              imageUrl = "https://telegra.ph" + uploadResult[0].src;
+            }
+          } catch (err) {
+            console.warn("Dynamic image upload failed, using text fallback:", err);
+          }
+        } else {
+          imageUrl = `${window.location.origin}/${currentProduct.image}`;
         }
       }
+      
+      let message = `Hey I need this '${currentProduct.name}'`;
+      if (imageUrl) {
+        message += `\n\nProduct Image: ${imageUrl}`;
+      }
+      
       const encodedMsg = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/919946601662?text=${encodedMsg}`;
+      
+      singleBuyNowBtn.disabled = false;
+      singleBuyNowBtn.innerHTML = originalBtnText;
+      
       window.open(whatsappUrl, '_blank');
     });
   }
