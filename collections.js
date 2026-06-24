@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const singleTitle = document.getElementById('single-title');
   const singlePrice = document.getElementById('single-price');
   const singleDesc = document.getElementById('single-desc');
-  const singleSpecComposition = document.getElementById('single-spec-composition');
   const singleAddToCartBtn = document.getElementById('single-add-to-cart');
   const singleBuyNowBtn = document.getElementById('single-buy-now');
 
@@ -48,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeCategory = "";
   let activeGender = "all";
   let cachedProducts = [];
+  let currentProduct = null;
 
   // Theme Initialization
   const initTheme = () => {
@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Single Product Detailed Panel View
   const showSingleProductView = (product) => {
+    currentProduct = product;
     // View switches
     categoriesGridView.classList.add('hidden');
     productDetailView.classList.add('hidden');
@@ -218,17 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     singleCategoryTag.textContent = product.category.replace(/ un-?sex| not luxury/gi, '');
     singlePrice.textContent = `₹${product.price.toLocaleString()}`;
     singleDesc.textContent = product.description;
-
-    // Spec table dynamic changes
-    if (product.category.includes('ring')) {
-      singleSpecComposition.textContent = "18k Solid Yellow Gold, Hand-Finished Satin";
-    } else if (product.category.includes('chain')) {
-      singleSpecComposition.textContent = "Sterling Silver 925, Anti-Tarnish Finish";
-    } else if (product.category.includes('watch')) {
-      singleSpecComposition.textContent = "Surgical Grade Steel, Sapphire Crystal Glass";
-    } else {
-      singleSpecComposition.textContent = "Premium Forged Alloy, Architectural Design";
-    }
 
     // Set stage main image
     singleMainImg.src = product.image;
@@ -366,7 +356,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (singleBuyNowBtn) {
     singleBuyNowBtn.addEventListener('click', () => {
-      alert(`Proceeding to luxury checkout for ${singleTitle.textContent}.`);
+      if (!currentProduct) return;
+      let message = `Hey I need this '${currentProduct.name}'`;
+      if (currentProduct.image) {
+        if (currentProduct.image.startsWith('http')) {
+          message += `\n\nProduct Image: ${currentProduct.image}`;
+        } else if (!currentProduct.image.startsWith('data:')) {
+          message += `\n\nProduct Image: ${window.location.origin}/${currentProduct.image}`;
+        }
+      }
+      const encodedMsg = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/919946601662?text=${encodedMsg}`;
+      window.open(whatsappUrl, '_blank');
     });
   }
 
