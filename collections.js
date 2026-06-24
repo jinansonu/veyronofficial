@@ -130,17 +130,30 @@ document.addEventListener('DOMContentLoaded', () => {
       
       filtered.forEach(prod => {
         const card = document.createElement('div');
-        card.className = 'product-card bg-primary-container/40 p-4 border border-outline-variant/10 rounded-[20px] flex flex-col justify-between group cursor-pointer hover:bg-slate-50/5 transition-colors';
+        card.className = 'product-card bg-primary-container/40 p-4 border border-outline-variant/10 rounded-[20px] flex flex-col justify-between group cursor-pointer hover:bg-slate-50/5 transition-all duration-300 shadow-sm border-b-4 border-[#4A372D]/20';
         
+        let priceSection = `<span class="font-label-caps text-xs text-espresso font-bold flex-none">₹${prod.price.toLocaleString()}</span>`;
+        if (prod.originalPrice && prod.offerPercentage) {
+          priceSection = `
+            <div class="text-right flex flex-col items-end gap-0.5 flex-none">
+              <div class="flex items-center gap-1.5">
+                <span class="line-through text-[10px] text-on-surface-variant/60 font-medium">₹${prod.originalPrice.toLocaleString()}</span>
+                <span class="font-label-caps text-xs text-espresso font-bold">₹${prod.price.toLocaleString()}</span>
+              </div>
+              <span class="text-[9px] tracking-wider font-semibold text-emerald-700 uppercase bg-emerald-50 dark:bg-emerald-950/20 px-1 py-0.5 rounded-sm">${prod.offerPercentage}% OFF</span>
+            </div>
+          `;
+        }
+
         card.innerHTML = `
           <div class="space-y-4">
-            <div class="aspect-[3/4] overflow-hidden rounded-[16px] shadow-sm relative">
+            <div class="aspect-[4/5] w-[90%] mx-auto overflow-hidden rounded-[16px] shadow-sm relative border-2 border-[#E8DDD0] dark:border-[#4A372D]/60 bg-[#E8DDD0]/20">
               <img class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700" src="${prod.image}" alt="${prod.name}"/>
             </div>
             <div class="space-y-2 px-1">
               <div class="flex justify-between items-baseline gap-2">
                 <h4 class="font-display-md text-sm uppercase text-on-surface font-semibold leading-tight">${prod.name}</h4>
-                <span class="font-label-caps text-xs text-espresso font-bold flex-none">₹${prod.price.toLocaleString()}</span>
+                ${priceSection}
               </div>
               <p class="font-body-md text-xs text-on-surface-variant line-clamp-3 leading-relaxed">${prod.description}</p>
             </div>
@@ -217,7 +230,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate contents
     singleTitle.textContent = product.name;
     singleCategoryTag.textContent = product.category.replace(/ un-?sex| not luxury/gi, '');
-    singlePrice.textContent = `₹${product.price.toLocaleString()}`;
+    
+    if (product.originalPrice && product.offerPercentage) {
+      singlePrice.innerHTML = `
+        <div class="flex items-baseline gap-3 flex-wrap">
+          <span class="font-serif text-3xl font-normal text-[#4A372D]">₹${product.price.toLocaleString()}</span>
+          <span class="line-through text-lg text-[#4A372D]/50 font-normal">₹${product.originalPrice.toLocaleString()}</span>
+          <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-2 py-0.5 rounded-[4px] uppercase tracking-wider">${product.offerPercentage}% OFF</span>
+        </div>
+      `;
+    } else {
+      singlePrice.innerHTML = `₹${product.price.toLocaleString()}`;
+    }
+    
     singleDesc.textContent = product.description;
 
     // Set stage main image
