@@ -385,39 +385,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (singleBuyNowBtn) {
-    singleBuyNowBtn.addEventListener('click', async () => {
+    singleBuyNowBtn.addEventListener('click', () => {
       if (!currentProduct) return;
       
-      const originalBtnText = singleBuyNowBtn.innerHTML;
-      singleBuyNowBtn.disabled = true;
-      singleBuyNowBtn.innerHTML = '<span class="animate-pulse">Preparing Checkout...</span>';
-      
       let imageUrl = "";
-      
       if (currentProduct.image) {
         if (currentProduct.image.startsWith('http')) {
           imageUrl = currentProduct.image;
-        } else if (currentProduct.image.startsWith('data:')) {
-          // Upload base64 image dynamically to Telegra.ph to generate a public link
-          try {
-            const blob = await (await fetch(currentProduct.image)).blob();
-            const file = new File([blob], "product.png", { type: blob.type });
-            
-            const formData = new FormData();
-            formData.append("file", file);
-            
-            const uploadRes = await fetch("https://telegra.ph/upload", {
-              method: "POST",
-              body: formData
-            });
-            const uploadResult = await uploadRes.json();
-            if (uploadResult && uploadResult[0] && uploadResult[0].src) {
-              imageUrl = "https://telegra.ph" + uploadResult[0].src;
-            }
-          } catch (err) {
-            console.warn("Dynamic image upload failed, using text fallback:", err);
-          }
-        } else {
+        } else if (!currentProduct.image.startsWith('data:')) {
           imageUrl = `${window.location.origin}/${currentProduct.image}`;
         }
       }
@@ -425,14 +400,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let message = `Hey I need this '${currentProduct.name}'`;
       if (imageUrl) {
         message += `\n\nProduct Image: ${imageUrl}`;
+      } else {
+        // Fallback website link for old base64 products
+        message += `\n\nLink: ${window.location.origin}${window.location.pathname}?id=${currentProduct.id}`;
       }
       
       const encodedMsg = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/919946601662?text=${encodedMsg}`;
-      
-      singleBuyNowBtn.disabled = false;
-      singleBuyNowBtn.innerHTML = originalBtnText;
-      
       window.open(whatsappUrl, '_blank');
     });
   }
