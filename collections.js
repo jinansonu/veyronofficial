@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       filtered.forEach(prod => {
         const card = document.createElement('div');
-        card.className = 'product-card bg-primary-container/40 p-4 border border-outline-variant/10 rounded-[20px] flex flex-col justify-between group cursor-pointer hover:bg-slate-50/5 transition-all duration-300 shadow-sm border-b-4 border-[#4A372D]/20';
+        card.className = 'product-card bg-white dark:bg-[#2E211B] p-5 border-2 border-[#E8DDD0] dark:border-[#4A372D] rounded-[24px] flex flex-col justify-between group cursor-pointer hover:border-[#4A372D]/60 dark:hover:border-[#E8DDD0]/60 transition-all duration-300 shadow-md hover:-translate-y-1 mb-4';
         
         let priceSection = `<span class="font-label-caps text-xs text-espresso font-bold flex-none">₹${prod.price.toLocaleString()}</span>`;
         if (prod.originalPrice && prod.offerPercentage) {
@@ -146,16 +146,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         card.innerHTML = `
-          <div class="space-y-4">
-            <div class="aspect-[4/5] w-[90%] mx-auto overflow-hidden rounded-[16px] shadow-sm relative border-2 border-[#E8DDD0] dark:border-[#4A372D]/60 bg-[#E8DDD0]/20">
+          <div class="space-y-4 flex flex-col justify-between h-full w-full">
+            <div class="w-[240px] max-w-full aspect-square mx-auto overflow-hidden rounded-[16px] shadow-sm relative border-2 border-[#E8DDD0] dark:border-[#4A372D]/60 bg-[#E8DDD0]/20 flex-none flex items-center justify-center">
               <img class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700" src="${prod.image}" alt="${prod.name}"/>
             </div>
-            <div class="space-y-2 px-1">
-              <div class="flex justify-between items-baseline gap-2">
-                <h4 class="font-display-md text-sm uppercase text-on-surface font-semibold leading-tight">${prod.name}</h4>
-                ${priceSection}
+            <div class="space-y-2 px-1 flex-grow flex flex-col justify-between mt-4">
+              <div>
+                <div class="flex justify-between items-baseline gap-2 mb-2">
+                  <h4 class="font-display-md text-sm uppercase text-on-surface font-semibold leading-tight">${prod.name}</h4>
+                  ${priceSection}
+                </div>
+                <p class="font-body-md text-xs text-on-surface-variant line-clamp-3 leading-relaxed">${prod.description}</p>
               </div>
-              <p class="font-body-md text-xs text-on-surface-variant line-clamp-3 leading-relaxed">${prod.description}</p>
+              
+              <!-- White/Brown divider line inside each card at the bottom -->
+              <div class="border-t border-[#E8DDD0] dark:border-[#4A372D]/40 pt-2 mt-4"></div>
             </div>
           </div>
         `;
