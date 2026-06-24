@@ -52,7 +52,7 @@ const getDbProducts = async () => {
       category: "neck chains fancy",
       gender: "all",
       description: "A fancy double-lock Cuban link chain crafted in premium silver, hand-assembled.",
-      image: "assets/silver_chain.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/silver_chain.png"
     },
     {
       id: "mock-2",
@@ -61,7 +61,7 @@ const getDbProducts = async () => {
       category: "finger rings",
       gender: "female",
       description: "Fine yellow gold band set, featuring a micro-pavé finish and tactile ribbed details.",
-      image: "assets/gold_rings.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/gold_rings.png"
     },
     {
       id: "mock-3",
@@ -70,7 +70,7 @@ const getDbProducts = async () => {
       category: "earrings",
       gender: "all",
       description: "Minimalist hoops with a sharp aesthetic twist. Sold as a pair.",
-      image: "assets/earrings.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/earrings.png"
     },
     {
       id: "mock-4",
@@ -79,7 +79,7 @@ const getDbProducts = async () => {
       category: "bracelet unisex",
       gender: "all",
       description: "Forged steel wire cuff bracelet. Flexible, modern, and built for everyone.",
-      image: "assets/continuous_bracelet.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/continuous_bracelet.png"
     },
     {
       id: "mock-5",
@@ -88,7 +88,7 @@ const getDbProducts = async () => {
       category: "teeth braces fashion",
       gender: "all",
       description: "Custom gold fashion grill, designed to clip securely onto teeth for editorial styling.",
-      image: "assets/teeth_clips.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/teeth_clips.png"
     },
     {
       id: "mock-6",
@@ -97,7 +97,7 @@ const getDbProducts = async () => {
       category: "watches not luxury",
       gender: "male",
       description: "A durable steel watch featuring a green dial, automatic calendar movements.",
-      image: "assets/luxury_watch.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/luxury_watch.png"
     }
   ];
 
