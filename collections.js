@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const singleCategoryTag = document.getElementById('single-category-tag');
   const singleThumbnailGallery = document.getElementById('single-thumbnail-gallery');
   const singleMainImg = document.getElementById('single-main-img');
+  const singlePrevImgBtn = document.getElementById('single-prev-img');
+  const singleNextImgBtn = document.getElementById('single-next-img');
   const singleTitle = document.getElementById('single-title');
   const singlePrice = document.getElementById('single-price');
   const singleDesc = document.getElementById('single-desc');
@@ -48,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeGender = "all";
   let cachedProducts = [];
   let currentProduct = null;
+  let activeImgIndex = 0;
+  let currentImagesList = [];
 
   // Theme Initialization
   const initTheme = () => {
@@ -224,9 +228,52 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const changeActiveImage = (idx) => {
+    activeImgIndex = idx;
+    
+    // Update stage main image
+    singleMainImg.style.opacity = '0.3';
+    setTimeout(() => {
+      singleMainImg.src = currentImagesList[activeImgIndex];
+      // Reset transform zoom on transition
+      singleMainImg.style.transform = 'scale(1)';
+      singleMainImg.style.opacity = '1';
+    }, 150);
+
+    // Update active thumbnail borders
+    const thumbBtns = singleThumbnailGallery.querySelectorAll('button');
+    thumbBtns.forEach((btn, tIdx) => {
+      if (tIdx === activeImgIndex) {
+        btn.classList.add('border-[#4A372D]', 'opacity-100');
+        btn.classList.remove('border-transparent');
+      } else {
+        btn.classList.remove('border-[#4A372D]', 'opacity-100');
+        btn.classList.add('border-transparent');
+      }
+    });
+  };
+
   // Single Product Detailed Panel View
   const showSingleProductView = (product) => {
     currentProduct = product;
+    activeImgIndex = 0;
+    
+    // Determine image list
+    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+      currentImagesList = product.images;
+    } else {
+      currentImagesList = [product.image];
+    }
+
+    // Toggle navigation arrow visibility
+    if (currentImagesList.length > 1) {
+      singlePrevImgBtn.classList.remove('hidden');
+      singleNextImgBtn.classList.remove('hidden');
+    } else {
+      singlePrevImgBtn.classList.add('hidden');
+      singleNextImgBtn.classList.add('hidden');
+    }
+
     // View switches
     categoriesGridView.classList.add('hidden');
     productDetailView.classList.add('hidden');
@@ -251,47 +298,67 @@ document.addEventListener('DOMContentLoaded', () => {
     singleDesc.textContent = product.description;
 
     // Set stage main image
-    singleMainImg.src = product.image;
-
-    // Generate vertical gallery thumbnails
-    const thumbnailSpecs = [
-      { name: "Signature", transform: "scale(1) rotate(0deg)" },
-      { name: "Detail", transform: "scale(1.4) rotate(0deg)" },
-      { name: "Profile", transform: "scale(1.25) rotate(4deg)" },
-      { name: "Tactile", transform: "scale(1.8) rotate(-2deg)" }
-    ];
+    singleMainImg.src = currentImagesList[0];
+    singleMainImg.style.transform = 'scale(1)';
 
     singleThumbnailGallery.innerHTML = '';
     
-    thumbnailSpecs.forEach((spec, idx) => {
-      const thumbBtn = document.createElement('button');
-      // Set active thumb border color depending on dark mode status
-      thumbBtn.className = `w-16 h-20 sm:w-full aspect-[3/4] bg-[#E8DDD0]/20 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300 opacity-60 hover:opacity-90 flex-none relative ${idx === 0 ? 'border-[#4A372D] opacity-100' : ''}`;
-      thumbBtn.setAttribute('aria-label', `View ${spec.name} aspect`);
+    if (currentImagesList.length > 1) {
+      // Load actual multiple images into thumbnail gallery
+      currentImagesList.forEach((imgUrl, idx) => {
+        const thumbBtn = document.createElement('button');
+        thumbBtn.className = `w-16 h-20 sm:w-full aspect-[3/4] bg-[#E8DDD0]/20 rounded-lg overflow-hidden border-2 transition-all duration-300 opacity-60 hover:opacity-90 flex-none relative ${idx === 0 ? 'border-[#4A372D] opacity-100' : 'border-transparent'}`;
+        thumbBtn.setAttribute('aria-label', `View image aspect ${idx + 1}`);
 
-      thumbBtn.innerHTML = `
-        <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" src="${product.image}" alt="${spec.name} View" style="transform: ${spec.transform};">
-      `;
+        thumbBtn.innerHTML = `
+          <img class="w-full h-full object-cover" src="${imgUrl}" alt="View aspect ${idx + 1}">
+        `;
 
-      thumbBtn.addEventListener('click', () => {
-        // Clear active borders
-        singleThumbnailGallery.querySelectorAll('button').forEach(btn => btn.className = btn.className.replace(' border-[#4A372D] opacity-100', ''));
-        // Add active border
-        thumbBtn.className += ' border-[#4A372D] opacity-100';
+        thumbBtn.addEventListener('click', () => {
+          changeActiveImage(idx);
+        });
 
-        // Stage transition
-        singleMainImg.style.opacity = '0.3';
-        setTimeout(() => {
-          singleMainImg.style.transform = spec.transform;
-          singleMainImg.style.opacity = '1';
-        }, 150);
+        singleThumbnailGallery.appendChild(thumbBtn);
       });
+    } else {
+      // Fallback signature aspects for single images
+      const thumbnailSpecs = [
+        { name: "Signature", transform: "scale(1) rotate(0deg)" },
+        { name: "Detail", transform: "scale(1.4) rotate(0deg)" },
+        { name: "Profile", transform: "scale(1.25) rotate(4deg)" },
+        { name: "Tactile", transform: "scale(1.8) rotate(-2deg)" }
+      ];
 
-      singleThumbnailGallery.appendChild(thumbBtn);
-    });
+      thumbnailSpecs.forEach((spec, idx) => {
+        const thumbBtn = document.createElement('button');
+        thumbBtn.className = `w-16 h-20 sm:w-full aspect-[3/4] bg-[#E8DDD0]/20 rounded-lg overflow-hidden border-2 transition-all duration-300 opacity-60 hover:opacity-90 flex-none relative ${idx === 0 ? 'border-[#4A372D] opacity-100' : 'border-transparent'}`;
+        thumbBtn.setAttribute('aria-label', `View ${spec.name} aspect`);
 
-    // Reset main image transform style
-    singleMainImg.style.transform = 'scale(1)';
+        thumbBtn.innerHTML = `
+          <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" src="${product.image}" alt="${spec.name} View" style="transform: ${spec.transform};">
+        `;
+
+        thumbBtn.addEventListener('click', () => {
+          // Clear active borders
+          singleThumbnailGallery.querySelectorAll('button').forEach(btn => {
+            btn.classList.remove('border-[#4A372D]', 'opacity-100');
+            btn.classList.add('border-transparent');
+          });
+          // Add active border
+          thumbBtn.classList.remove('border-transparent');
+          thumbBtn.classList.add('border-[#4A372D]', 'opacity-100');
+
+          // Stage transition
+          singleMainImg.style.opacity = '0.3';
+          setTimeout(() => {
+            singleMainImg.style.transform = spec.transform;
+            singleMainImg.style.opacity = '1';
+          }, 150);
+        });
+
+        singleThumbnailGallery.appendChild(thumbBtn);
+      });
+    }
 
     // Update Query String parameter without reloading
     const detailUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?id=${product.id}`;
@@ -414,6 +481,25 @@ document.addEventListener('DOMContentLoaded', () => {
       const encodedMsg = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/919946601662?text=${encodedMsg}`;
       window.open(whatsappUrl, '_blank');
+    });
+  }
+
+  // Arrow navigation click handlers
+  if (singlePrevImgBtn) {
+    singlePrevImgBtn.addEventListener('click', () => {
+      if (currentImagesList.length <= 1) return;
+      let newIdx = activeImgIndex - 1;
+      if (newIdx < 0) newIdx = currentImagesList.length - 1;
+      changeActiveImage(newIdx);
+    });
+  }
+
+  if (singleNextImgBtn) {
+    singleNextImgBtn.addEventListener('click', () => {
+      if (currentImagesList.length <= 1) return;
+      let newIdx = activeImgIndex + 1;
+      if (newIdx >= currentImagesList.length) newIdx = 0;
+      changeActiveImage(newIdx);
     });
   }
 
