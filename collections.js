@@ -16,7 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryQuickSelect = document.getElementById('category-quick-select');
   const genderFilterBtns = document.querySelectorAll('.gender-filter-btn');
 
-  // Inquiry Modal Elements
+  // Single Product Detail View Elements
+  const singleProductView = document.getElementById('single-product-view');
+  const backToProductsBtn = document.getElementById('back-to-products');
+  const singleCategoryTag = document.getElementById('single-category-tag');
+  const singleThumbnailGallery = document.getElementById('single-thumbnail-gallery');
+  const singleMainImg = document.getElementById('single-main-img');
+  const singleTitle = document.getElementById('single-title');
+  const singlePrice = document.getElementById('single-price');
+  const singleDesc = document.getElementById('single-desc');
+  const singleSpecComposition = document.getElementById('single-spec-composition');
+  const singleAddToCartBtn = document.getElementById('single-add-to-cart');
+  const singleBuyNowBtn = document.getElementById('single-buy-now');
+
+  // Inquiry Modal Elements (Fallback for global use)
   const inquiryModal = document.getElementById('inquiry-modal');
   const closeInquiryModal = document.getElementById('close-inquiry-modal');
   const inquiryForm = document.getElementById('inquiry-form');
@@ -90,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Load and Render Products
+  // Load and Render Products Grid List
   const renderFilteredProducts = async () => {
     productsResultGrid.innerHTML = '<div class="col-span-full text-center py-12 opacity-50 text-on-surface">Loading products...</div>';
     productsEmptyState.classList.add('hidden');
@@ -135,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         
         card.addEventListener('click', () => {
-          window.location.href = `product.html?id=${prod.id}`;
+          showSingleProductView(prod);
         });
         
         productsResultGrid.appendChild(card);
@@ -175,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // View toggle animation
     categoriesGridView.classList.add('hidden');
     productDetailView.classList.remove('hidden');
+    singleProductView.classList.add('hidden');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     renderFilteredProducts();
@@ -187,11 +201,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoriesGridView.classList.remove('hidden');
     productDetailView.classList.add('hidden');
+    singleProductView.classList.add('hidden');
     activeCategory = "";
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Bind Grid Cards Click
+  // Single Product Detailed Panel View
+  const showSingleProductView = (product) => {
+    // View switches
+    categoriesGridView.classList.add('hidden');
+    productDetailView.classList.add('hidden');
+    singleProductView.classList.remove('hidden');
+
+    // Populate contents
+    singleTitle.textContent = product.name;
+    singleCategoryTag.textContent = product.category.replace(/ un-?sex| not luxury/gi, '');
+    singlePrice.textContent = `₹${product.price.toLocaleString()}`;
+    singleDesc.textContent = product.description;
+
+    // Spec table dynamic changes
+    if (product.category.includes('ring')) {
+      singleSpecComposition.textContent = "18k Solid Yellow Gold, Hand-Finished Satin";
+    } else if (product.category.includes('chain')) {
+      singleSpecComposition.textContent = "Sterling Silver 925, Anti-Tarnish Finish";
+    } else if (product.category.includes('watch')) {
+      singleSpecComposition.textContent = "Surgical Grade Steel, Sapphire Crystal Glass";
+    } else {
+      singleSpecComposition.textContent = "Premium Forged Alloy, Architectural Design";
+    }
+
+    // Set stage main image
+    singleMainImg.src = product.image;
+
+    // Generate vertical gallery thumbnails
+    const thumbnailSpecs = [
+      { name: "Signature", transform: "scale(1) rotate(0deg)" },
+      { name: "Detail", transform: "scale(1.4) rotate(0deg)" },
+      { name: "Profile", transform: "scale(1.25) rotate(4deg)" },
+      { name: "Tactile", transform: "scale(1.8) rotate(-2deg)" }
+    ];
+
+    singleThumbnailGallery.innerHTML = '';
+    
+    thumbnailSpecs.forEach((spec, idx) => {
+      const thumbBtn = document.createElement('button');
+      // Set active thumb border color depending on dark mode status
+      thumbBtn.className = `w-16 h-20 sm:w-full aspect-[3/4] bg-[#E8DDD0]/20 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300 opacity-60 hover:opacity-90 flex-none relative ${idx === 0 ? 'border-[#4A372D] opacity-100' : ''}`;
+      thumbBtn.setAttribute('aria-label', `View ${spec.name} aspect`);
+
+      thumbBtn.innerHTML = `
+        <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" src="${product.image}" alt="${spec.name} View" style="transform: ${spec.transform};">
+      `;
+
+      thumbBtn.addEventListener('click', () => {
+        // Clear active borders
+        singleThumbnailGallery.querySelectorAll('button').forEach(btn => btn.className = btn.className.replace(' border-[#4A372D] opacity-100', ''));
+        // Add active border
+        thumbBtn.className += ' border-[#4A372D] opacity-100';
+
+        // Stage transition
+        singleMainImg.style.opacity = '0.3';
+        setTimeout(() => {
+          singleMainImg.style.transform = spec.transform;
+          singleMainImg.style.opacity = '1';
+        }, 150);
+      });
+
+      singleThumbnailGallery.appendChild(thumbBtn);
+    });
+
+    // Reset main image transform style
+    singleMainImg.style.transform = 'scale(1)';
+
+    // Update Query String parameter without reloading
+    const detailUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?id=${product.id}`;
+    window.history.pushState({ path: detailUrl }, '', detailUrl);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Bind Category Grid Cards Click
   document.querySelectorAll('.category-card').forEach(card => {
     card.addEventListener('click', () => {
       const cat = card.getAttribute('data-category');
@@ -199,15 +288,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Bind Back Button
+  // Bind Back to Categories List Button
   backToCategoriesBtn.addEventListener('click', showAllCategoriesView);
 
-  // Bind Selector dropdown
+  // Bind Back from Single Product View to Products Grid List
+  backToProductsBtn.addEventListener('click', () => {
+    if (activeCategory) {
+      showCategoryView(activeCategory);
+      // Clean query string
+      const catUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?category=${activeCategory}`;
+      window.history.pushState({ path: catUrl }, '', catUrl);
+    } else {
+      showAllCategoriesView();
+    }
+  });
+
+  // Bind Category Quick Selector dropdown
   categoryQuickSelect.addEventListener('change', (e) => {
     showCategoryView(e.target.value);
   });
 
-  // Bind Gender filter clicks
+  // Bind Gender filter buttons
   genderFilterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       genderFilterBtns.forEach(b => b.classList.remove('active'));
@@ -217,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. INQUIRY MODAL FUNCTIONALITY
+  // 4. INQUIRY MODAL FUNCTIONALITY (Concierge inquiry handles)
   const openInquiry = (pieceName) => {
     inquiryInterest.value = pieceName;
     inquiryForm.classList.remove('hidden');
@@ -233,25 +334,60 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   };
 
-  closeInquiryModal.addEventListener('click', closeInquiry);
+  if (closeInquiryModal) closeInquiryModal.addEventListener('click', closeInquiry);
   
-  inquiryModal.addEventListener('click', (e) => {
-    if (e.target === inquiryModal) closeInquiry();
-  });
+  if (inquiryModal) {
+    inquiryModal.addEventListener('click', (e) => {
+      if (e.target === inquiryModal) closeInquiry();
+    });
+  }
 
-  inquiryForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    inquiryForm.classList.add('hidden');
-    inquirySuccess.classList.remove('hidden');
-    setTimeout(() => {
-      closeInquiry();
-    }, 2500);
-  });
+  if (inquiryForm) {
+    inquiryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      inquiryForm.classList.add('hidden');
+      inquirySuccess.classList.remove('hidden');
+      setTimeout(() => {
+        closeInquiry();
+      }, 2500);
+    });
+  }
 
-  // 5. QUERY DEEP LINK CHECK
-  const checkUrlParams = () => {
+  // Bind action buttons inside single product view
+  if (singleAddToCartBtn) {
+    singleAddToCartBtn.addEventListener('click', () => {
+      singleAddToCartBtn.innerHTML = '<span class="animate-pulse">Adding...</span>';
+      setTimeout(() => {
+        alert(`${singleTitle.textContent} added to your cart.`);
+        singleAddToCartBtn.innerHTML = 'Add to Cart';
+      }, 1000);
+    });
+  }
+
+  if (singleBuyNowBtn) {
+    singleBuyNowBtn.addEventListener('click', () => {
+      alert(`Proceeding to luxury checkout for ${singleTitle.textContent}.`);
+    });
+  }
+
+  // 5. QUERY PARAMETER DEEP LINK CHECK
+  const checkUrlParams = async () => {
     const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id');
     const catParam = params.get('category');
+
+    if (cachedProducts.length === 0) {
+      cachedProducts = await getDbProducts();
+    }
+
+    if (idParam) {
+      const product = cachedProducts.find(p => p.id === idParam);
+      if (product) {
+        activeCategory = product.category;
+        showSingleProductView(product);
+        return;
+      }
+    }
     
     // Map URL shorthand parameters
     const validCategories = [
