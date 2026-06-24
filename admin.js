@@ -34,8 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetCatalogBtn = document.getElementById('reset-catalog-btn');
   const logoutBtn = document.getElementById('logout-btn');
 
-  // Base64 storage
+  // Base64 and File storage
   let base64ImageString = "";
+  let selectedImageFile = null;
 
   // 1. Auth Listener / Session Check
   const checkAuthStatus = () => {
@@ -145,11 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 800 * 1024) { // limit 800KB to safely fit under Firestore's 1MB document size limit
-      alert("Image is too large. Please select a file smaller than 800KB.");
+    if (file.size > 3 * 1024 * 1024) { // limit 3MB for Telegra.ph upload limit
+      alert("Image is too large. Please select a file smaller than 3MB.");
       prodImageFile.value = "";
       return;
     }
+
+    selectedImageFile = file;
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -162,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   removePreviewBtn.addEventListener('click', () => {
+    selectedImageFile = null;
     base64ImageString = "";
     imagePreview.src = "";
     imagePreviewContainer.classList.add('hidden');
@@ -238,13 +242,46 @@ document.addEventListener('DOMContentLoaded', () => {
     saveProductBtn.disabled = true;
     saveProductBtn.textContent = "Saving to Database...";
 
+    let imageUrl = base64ImageString;
+
+    // Try hosting image publicly on Telegra.ph to allow WhatsApp image previews
+    if (selectedImageFile) {
+      try {
+        saveProductBtn.textContent = "Hosting image in cloud...";
+        const formData = new FormData();
+        formData.append("file", selectedImageFile);
+        
+        const uploadRes = await fetch("https://telegra.ph/upload", {
+          method: "POST",
+          body: formData
+        });
+        const uploadResult = await uploadRes.json();
+        
+        if (uploadResult && uploadResult[0] && uploadResult[0].src) {
+          imageUrl = "https://telegra.ph" + uploadResult[0].src;
+          console.log("Image hosted successfully on Telegra.ph:", imageUrl);
+        } else {
+          throw new Error("Telegra.ph returned invalid structure");
+        }
+      } catch (err) {
+        console.warn("Failed to upload image to cloud hosting, using base64 fallback:", err);
+        if (selectedImageFile.size > 800 * 1024) {
+          formError.textContent = "Cloud hosting failed, and image is too large to save offline. Please select a smaller file (under 800KB).";
+          formError.classList.remove('hidden');
+          saveProductBtn.disabled = false;
+          saveProductBtn.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_upload</span> Upload to Catalog';
+          return;
+        }
+      }
+    }
+
     const product = {
       name: prodName.value.trim(),
       price: parseFloat(prodPrice.value),
       gender: prodGender.value,
       category: prodCategory.value,
       description: prodDesc.value.trim(),
-      image: base64ImageString,
+      image: imageUrl,
       originalPrice: prodOriginalPrice.value ? parseFloat(prodOriginalPrice.value) : null,
       offerPercentage: prodOfferPercentage.value ? parseFloat(prodOfferPercentage.value) : null
     };
@@ -254,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Reset Form
       productForm.reset();
+      selectedImageFile = null;
       base64ImageString = "";
       imagePreview.src = "";
       imagePreviewContainer.classList.add('hidden');
