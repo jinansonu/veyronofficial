@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeyronChain — Articulated Masterpiece</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              luxuryBg: "#F6F2EC",
+              luxurySecondary: "#E8DDD0",
+              luxuryDark: "#4A372D",
+              luxuryText: "#2A2420",
+              luxuryEspresso: "#4A3B32"
+            },
+            fontFamily: {
+              serif: ['"Cormorant Garamond"', 'serif'],
+              sans: ['Inter', 'sans-serif']
+            }
+          }
+        }
+      }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet"/>
+    <style>
+      .premium-shadow {
+        box-shadow: 0 20px 40px -15px rgba(74, 55, 45, 0.08);
+      }
+      .luxury-border {
+        border-color: rgba(74, 55, 45, 0.12);
+      }
+      .thumbnail-active {
+        border-color: #4A372D;
+        opacity: 1 !important;
+      }
+      .dark .thumbnail-active {
+        border-color: #E8DDD0;
+      }
+      /* Smooth transitions for zoom and slide effects */
+      .gallery-main-img {
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
+      }
+      /* Custom loader animation */
+      .fade-up-element {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .delay-1 { animation-delay: 0.2s; }
+      .delay-2 { animation-delay: 0.4s; }
+      .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body class="bg-luxuryBg text-luxuryText dark:bg-[#150F0D] dark:text-[#E8DDD0] font-sans antialiased min-h-screen transition-colors duration-500">
+    <!-- Navbar -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop bg-luxuryBg/90 dark:bg-[#150F0D]/90 backdrop-blur-md border-b border-luxuryDark/10 dark:border-white/10 h-[80px] transition-all duration-300">
+        <div class="flex items-center">
+            <a href="index.html" class="font-serif text-3xl font-light text-luxuryDark dark:text-[#E8DDD0] tracking-wider select-none hover:opacity-80 transition-opacity">VeyronChain</a>
+        </div>
+        <nav class="hidden md:flex space-x-12">
+            <a class="font-label-caps text-xs tracking-widest uppercase text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 pb-1" href="index.html">Home</a>
+            <a class="font-label-caps text-xs tracking-widest uppercase text-luxuryDark dark:text-white border-b border-luxuryDark dark:border-white transition-colors duration-300 pb-1" href="collections.html">Collection</a>
+            <a class="font-label-caps text-xs tracking-widest uppercase text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 pb-1" href="index.html#manifesto">Manifesto</a>
+            <a class="font-label-caps text-xs tracking-widest uppercase text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 pb-1" href="index.html#journal">Journal</a>
+            <a class="font-label-caps text-xs tracking-widest uppercase text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 pb-1" href="index.html#craftsmanship">Craftsmanship</a>
+        </nav>
+        <div class="flex items-center space-x-6">
+            <button id="theme-toggle" class="p-2 text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors flex items-center justify-center" aria-label="Toggle dark mode">
+                <span class="material-symbols-outlined text-2xl">dark_mode</span>
+            </button>
+            <button id="menu-toggle" class="p-2 text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors flex items-center justify-center z-50" aria-label="Toggle navigation menu">
+                <span class="material-symbols-outlined text-2xl">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hamburger Dropdown Menu -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-luxuryBg dark:bg-[#150F0D] z-[45] transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center items-center select-none px-margin-mobile md:px-margin-desktop">
+        <nav class="w-full max-w-[320px] md:max-w-[400px] flex flex-col items-center">
+            <a class="flex justify-between items-center w-full py-5 border-b border-luxuryDark/10 dark:border-white/10 font-serif text-2xl text-luxuryText dark:text-[#E8DDD0] hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 uppercase tracking-widest menu-link" href="index.html">
+                <span>Home</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-luxuryDark/10 dark:border-white/10 font-serif text-2xl text-luxuryDark dark:text-white uppercase tracking-widest menu-link" href="collections.html">
+                <span>Collection</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-luxuryDark/10 dark:border-white/10 font-serif text-2xl text-luxuryText dark:text-[#E8DDD0] hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 uppercase tracking-widest menu-link" href="index.html#manifesto">
+                <span>Manifesto</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-luxuryDark/10 dark:border-white/10 font-serif text-2xl text-luxuryText dark:text-[#E8DDD0] hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 uppercase tracking-widest menu-link" href="index.html#journal">
+                <span>Journal</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+            <a class="flex justify-between items-center w-full py-5 border-b border-luxuryDark/10 dark:border-white/10 font-serif text-2xl text-luxuryText dark:text-[#E8DDD0] hover:text-luxuryDark dark:hover:text-white transition-colors duration-300 uppercase tracking-widest menu-link" href="index.html#craftsmanship">
+                <span>Craftsmanship</span>
+                <span class="text-xl transition-transform duration-300 arrow-icon">→</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <main class="pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-[1340px] mx-auto">
+        <!-- Breadcrumb / Back Navigation -->
+        <div class="mb-8 fade-up-element">
+            <a href="collections.html" class="inline-flex items-center text-xs tracking-widest uppercase text-luxuryText/60 dark:text-[#E8DDD0]/60 hover:text-luxuryDark dark:hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-sm mr-2 group-hover:-translate-x-1 transition-transform">west</span>
+                Back to Collection
+            </a>
+        </div>
+
+        <!-- Product Grid View -->
+        <div id="product-root" class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            <!-- Left Column: Gallery (60% equivalent: 7/12 cols) -->
+            <div class="lg:col-span-7 flex flex-col-reverse sm:flex-row gap-6 items-start fade-up-element delay-1">
+                <!-- Vertical Thumbnails Gallery -->
+                <div id="thumbnail-gallery" class="flex sm:flex-col flex-row gap-4 w-full sm:w-[84px] justify-start overflow-x-auto sm:overflow-visible">
+                    <!-- Dynamic Thumbnails inserted here -->
+                </div>
+
+                <!-- Main Image Stage -->
+                <div class="flex-1 w-full bg-luxurySecondary/30 dark:bg-white/5 rounded-[24px] overflow-hidden aspect-[4/5] relative premium-shadow border border-luxurySecondary/20 dark:border-white/10">
+                    <img id="main-product-image" class="w-full h-full object-cover gallery-main-img" src="" alt="Product Detail View">
+                    <!-- Zoom Reveal overlay -->
+                    <div id="image-overlay" class="absolute inset-0 bg-luxuryBg dark:bg-[#150F0D] transition-all duration-1000 ease-out pointer-events-none"></div>
+                </div>
+            </div>
+
+            <!-- Right Column: Product Detail Panel (40% equivalent: 5/12 cols) -->
+            <div class="lg:col-span-5 space-y-8 fade-up-element delay-2">
+                <div class="space-y-4">
+                    <!-- Category label -->
+                    <span id="product-category" class="block font-label-caps text-xs tracking-[0.25em] uppercase text-luxuryDark dark:text-[#E8DDD0]/80 font-semibold">
+                        <!-- Category Code -->
+                    </span>
+                    <!-- Product Title -->
+                    <h1 id="product-title" class="font-serif text-4xl md:text-5xl font-light text-luxuryDark dark:text-white tracking-wide leading-tight">
+                        <!-- Product Title -->
+                    </h1>
+                    <!-- Price Display -->
+                    <div class="pt-2">
+                        <span id="product-price" class="font-serif text-3xl font-normal text-luxuryDark dark:text-[#E8DDD0]">
+                            <!-- Indian Rupees -->
+                        </span>
+                    </div>
+                </div>
+
+                <div class="hairline opacity-30"></div>
+
+                <!-- Description -->
+                <div class="space-y-4">
+                    <h4 class="font-serif text-lg text-luxuryDark dark:text-white italic">The Design Story</h4>
+                    <p id="product-description" class="font-sans text-sm text-luxuryText/80 dark:text-[#E8DDD0]/80 leading-relaxed font-light">
+                        <!-- Description -->
+                    </p>
+                </div>
+
+                <div class="hairline opacity-30"></div>
+
+                <!-- Product Specifications Section -->
+                <div class="space-y-4">
+                    <h4 class="font-serif text-lg text-luxuryDark dark:text-white">Specifications</h4>
+                    <div class="rounded-xl overflow-hidden border border-luxuryDark/10 dark:border-white/10 bg-white/30 dark:bg-black/20 backdrop-blur-sm">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <tbody>
+                                <tr class="border-b border-luxuryDark/5 dark:border-white/5">
+                                    <td class="p-3 font-semibold text-luxuryText/70 dark:text-[#E8DDD0]/70 uppercase tracking-widest w-1/3">Composition</td>
+                                    <td id="spec-composition" class="p-3 text-luxuryText dark:text-[#E8DDD0]">Sculptural Form, Architectural Lock</td>
+                                </tr>
+                                <tr class="border-b border-luxuryDark/5 dark:border-white/5">
+                                    <td class="p-3 font-semibold text-luxuryText/70 dark:text-[#E8DDD0]/70 uppercase tracking-widest">Atelier</td>
+                                    <td class="p-3 text-luxuryText dark:text-[#E8DDD0]">Veyron Official Forge</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-luxuryText/70 dark:text-[#E8DDD0]/70 uppercase tracking-widest">Guarantee</td>
+                                    <td class="p-3 text-luxuryText dark:text-[#E8DDD0]">2-Year International Ledger</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Additional Trust Badges -->
+                <div class="grid grid-cols-3 gap-2 py-2 text-center">
+                    <div class="p-3 rounded-xl bg-luxurySecondary/20 dark:bg-white/5 border border-luxuryDark/5 dark:border-white/5 space-y-1">
+                        <span class="material-symbols-outlined text-lg text-luxuryDark dark:text-white">local_shipping</span>
+                        <p class="font-label-caps text-[9px] tracking-wider text-luxuryText/80 dark:text-[#E8DDD0]/80 uppercase font-semibold">Free Shipping</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-luxurySecondary/20 dark:bg-white/5 border border-luxuryDark/5 dark:border-white/5 space-y-1">
+                        <span class="material-symbols-outlined text-lg text-luxuryDark dark:text-white">verified_user</span>
+                        <p class="font-label-caps text-[9px] tracking-wider text-luxuryText/80 dark:text-[#E8DDD0]/80 uppercase font-semibold">2 Year Warranty</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-luxurySecondary/20 dark:bg-white/5 border border-luxuryDark/5 dark:border-white/5 space-y-1">
+                        <span class="material-symbols-outlined text-lg text-luxuryDark dark:text-white">keyboard_return</span>
+                        <p class="font-label-caps text-[9px] tracking-wider text-luxuryText/80 uppercase font-semibold">Easy Returns</p>
+                    </div>
+                </div>
+
+                <!-- Action Button Block -->
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-center gap-2 mb-2 text-xs font-semibold text-emerald-700 dark:text-emerald-500">
+                        <span class="w-2 h-2 bg-emerald-600 rounded-full animate-pulse"></span>
+                        <span id="stock-indicator">Limited Acquisition Allocations Available</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="add-to-cart-btn" class="flex-1 bg-[#4A372D] dark:bg-[#E8DDD0] text-[#F6F2EC] dark:text-[#4A372D] font-label-caps text-xs tracking-widest py-5 rounded-[24px] uppercase font-semibold hover:opacity-90 active:scale-95 transition-all shadow-md hover:shadow-lg premium-shadow">
+                            Add to Cart
+                        </button>
+                        <button id="buy-now-btn" class="flex-1 bg-transparent border-2 border-luxuryDark dark:border-[#E8DDD0] text-luxuryDark dark:text-[#E8DDD0] font-label-caps text-xs tracking-widest py-5 rounded-[24px] uppercase font-semibold hover:bg-luxuryDark dark:hover:bg-[#E8DDD0] hover:text-luxuryBg dark:hover:text-[#150F0D] active:scale-95 transition-all">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Global compat library stack -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="product.js"></script>
+</body>
+</html>
