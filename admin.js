@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const prodGender = document.getElementById('prod-gender');
   const prodCategory = document.getElementById('prod-category');
   const prodDesc = document.getElementById('prod-desc');
+  const prodOriginalPrice = document.getElementById('prod-original-price');
+  const prodOfferPercentage = document.getElementById('prod-offer-percentage');
   const prodImageFile = document.getElementById('prod-image-file');
   const fileLabel = document.getElementById('file-label');
   const imagePreviewContainer = document.getElementById('image-preview-container');
@@ -242,7 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
       gender: prodGender.value,
       category: prodCategory.value,
       description: prodDesc.value.trim(),
-      image: base64ImageString
+      image: base64ImageString,
+      originalPrice: prodOriginalPrice.value ? parseFloat(prodOriginalPrice.value) : null,
+      offerPercentage: prodOfferPercentage.value ? parseFloat(prodOfferPercentage.value) : null
     };
 
     try {
