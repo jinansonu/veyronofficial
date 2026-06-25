@@ -4,8 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeyronChain — The Collections</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS with Forms and Container Queries -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Custom Theme Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "surface": "var(--color-surface)",
+              "on-surface": "var(--color-on-surface)",
+              "on-surface-variant": "var(--color-on-surface-variant)",
+              "primary-container": "var(--color-primary-container)",
+              "secondary": "var(--color-secondary)",
+              "outline-variant": "var(--color-outline-variant)",
+              "background": "var(--color-background)",
+              "on-background": "var(--color-on-background)",
+              "surface-container": "var(--color-surface-container)",
+              "surface-dim": "var(--color-surface-dim)",
+              "surface-container-high": "var(--color-surface-container-high)",
+              "surface-container-highest": "var(--color-surface-container-highest)",
+              "surface-container-lowest": "var(--color-surface-container-lowest)",
+              "surface-container-low": "var(--color-surface-container-low)",
+              "surface-variant": "var(--color-surface-variant)",
+              "primary": "var(--color-primary)",
+              "on-primary": "var(--color-on-primary)",
+              "on-primary-container": "var(--color-on-primary-container)",
+              "tertiary": "var(--color-tertiary)",
+              "on-tertiary": "var(--color-on-tertiary)",
+              "tertiary-container": "var(--color-tertiary-container)",
+              "on-tertiary-container": "var(--color-on-tertiary-container)",
+              "error": "var(--color-error)",
+              "on-error": "var(--color-on-error)",
+              "error-container": "var(--color-error-container)",
+              "on-error-container": "var(--color-on-error-container)",
+              "inverse-surface": "var(--color-inverse-surface)",
+              "inverse-on-surface": "var(--color-inverse-on-surface)",
+              "outline": "var(--color-outline)"
+            },
+            "borderRadius": {
+              "DEFAULT": "0px",
+              "lg": "0px",
+              "xl": "0px",
+              "full": "9999px"
+            },
+            "spacing": {
+              "margin-desktop": "64px",
+              "section-gap": "120px",
+              "margin-mobile": "20px",
+              "container-max": "1280px",
+              "gutter": "24px",
+              "unit": "8px"
+            },
+            "fontFamily": {
+              "display-lg-mobile": ["Libre Caslon Text"],
+              "label-caps": ["Hanken Grotesk"],
+              "headline-md": ["Libre Caslon Text"],
+              "body-lg": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+              "label-sm": ["Hanken Grotesk"],
+              "headline-sm": ["Libre Caslon Text"],
+              "display-lg": ["Libre Caslon Text"]
+            },
+            "fontSize": {
+              "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+              "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "600"}],
+              "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+              "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+              "label-sm": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+              "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "400"}],
+              "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+            },
+            "scale": {
+              "102": "1.02"
+            }
+          },
+        },
+      }
+    </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
