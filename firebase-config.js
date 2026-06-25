@@ -52,8 +52,7 @@ const getDbProducts = async () => {
       category: "neck chains fancy",
       gender: "all",
       description: "A fancy double-lock Cuban link chain crafted in premium silver, hand-assembled.",
-      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/silver_chain.png",
-      featured: true
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/silver_chain.png"
     },
     {
       id: "mock-2",
@@ -62,8 +61,7 @@ const getDbProducts = async () => {
       category: "finger rings",
       gender: "female",
       description: "Fine yellow gold band set, featuring a micro-pavé finish and tactile ribbed details.",
-      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/gold_rings.png",
-      featured: true
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/gold_rings.png"
     },
     {
       id: "mock-3",
@@ -81,8 +79,7 @@ const getDbProducts = async () => {
       category: "bracelet unisex",
       gender: "all",
       description: "Forged steel wire cuff bracelet. Flexible, modern, and built for everyone.",
-      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/continuous_bracelet.png",
-      featured: true
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/continuous_bracelet.png"
     },
     {
       id: "mock-5",
