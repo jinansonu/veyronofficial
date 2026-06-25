@@ -126,6 +126,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (filtered.length === 0) {
         productsResultGrid.innerHTML = '';
+        
+        const emptyStateText = productsEmptyState.querySelector('p');
+        const emptyStateIcon = productsEmptyState.querySelector('span');
+
+        const hasAnyInCategory = cachedProducts.some(prod => prod.category === activeCategory);
+
+        if (!hasAnyInCategory) {
+          // Category has no products -> Coming Soon
+          if (emptyStateText) {
+            emptyStateText.className = 'font-display-lg text-2xl tracking-widest uppercase text-espresso mt-4';
+            emptyStateText.innerHTML = `
+              <span class="block text-[10px] font-label-caps tracking-[0.25em] text-on-surface-variant/60 mb-2">— Archives Under Curation —</span>
+              Coming Soon
+            `;
+          }
+          if (emptyStateIcon) {
+            emptyStateIcon.textContent = 'history_toggle_off';
+            emptyStateIcon.className = 'material-symbols-outlined text-5xl opacity-30 text-espresso';
+          }
+        } else {
+          // Category has products, but gender filter mismatch
+          if (emptyStateText) {
+            emptyStateText.className = 'font-body-md text-sm text-on-surface-variant mt-2';
+            emptyStateText.innerHTML = 'No pieces found matching the active gender filter in this collection.';
+          }
+          if (emptyStateIcon) {
+            emptyStateIcon.textContent = 'info';
+            emptyStateIcon.className = 'material-symbols-outlined text-4xl opacity-30 text-on-surface';
+          }
+        }
+
         productsEmptyState.classList.remove('hidden');
         return;
       }
