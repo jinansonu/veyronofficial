@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prodDesc = document.getElementById('prod-desc');
   const prodOriginalPrice = document.getElementById('prod-original-price');
   const prodOfferPercentage = document.getElementById('prod-offer-percentage');
+  const prodFeatured = document.getElementById('prod-featured');
   const prodImageFile = document.getElementById('prod-image-file');
   const fileLabel = document.getElementById('file-label');
   const imagePreviewContainer = document.getElementById('image-preview-container');
@@ -277,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <img class="w-16 h-16 object-cover bg-primary-container border border-outline-variant/20 rounded" src="${prod.image}" alt="${prod.name}"/>
             <div>
               <h4 class="font-display-md text-sm uppercase text-on-surface font-semibold leading-tight">${prod.name}</h4>
-              <p class="font-body-md text-xs text-on-surface-variant mt-1">${prod.category} • ${prod.gender}</p>
+              <p class="font-body-md text-xs text-on-surface-variant mt-1">${prod.category} • ${prod.gender === 'all' ? 'Unisex' : (prod.gender === 'male' ? 'Male' : 'Female')}</p>
               <p class="font-label-caps text-xs text-espresso font-bold mt-1">₹${prod.price.toLocaleString()}</p>
             </div>
           </div>
@@ -335,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prodDesc.value = product.description;
     prodOriginalPrice.value = product.originalPrice || "";
     prodOfferPercentage.value = product.offerPercentage || "";
+    prodFeatured.checked = !!product.featured;
 
     // Set existing images list
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
@@ -366,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     base64ImageStrings = [];
     
     productForm.reset();
+    prodFeatured.checked = false;
     renderPreviewGrid();
 
     cancelEditBtn.classList.add('hidden');
@@ -463,7 +466,8 @@ document.addEventListener('DOMContentLoaded', () => {
       image: finalImageUrls[0], // primary image URL for backward compatibility
       images: finalImageUrls,   // array of all image URLs
       originalPrice: prodOriginalPrice.value ? parseFloat(prodOriginalPrice.value) : null,
-      offerPercentage: prodOfferPercentage.value ? parseFloat(prodOfferPercentage.value) : null
+      offerPercentage: prodOfferPercentage.value ? parseFloat(prodOfferPercentage.value) : null,
+      featured: prodFeatured.checked
     };
 
     if (editingProductId) {
