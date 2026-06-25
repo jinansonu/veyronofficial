@@ -1,6 +1,13 @@
 /* VeyronChain Custom JavaScript Application */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Init Firebase if config is active
+  if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured()) {
+    if (typeof firebase !== 'undefined' && firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    }
+  }
+
   // Logo link refresh and scroll to top interaction
   const headerLogoLink = document.getElementById('header-logo-link');
   if (headerLogoLink) {
@@ -82,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initManifestoInteraction();
 
   // Featured Objects Carousel slider
-  initFeaturedCarousel();
+  await initFeaturedCarousel();
 
   // Craftsmanship steps interaction
   initCraftsmanshipInteraction();
@@ -627,14 +634,77 @@ function initManifestoInteraction() {
 /**
  * Interactive horizontal carousel for Featured Objects
  */
-function initFeaturedCarousel() {
+async function initFeaturedCarousel() {
   const track = document.getElementById('carousel-track');
   const prevBtn = document.getElementById('carousel-prev');
   const nextBtn = document.getElementById('carousel-next');
   const indicatorsContainer = document.getElementById('carousel-indicators');
-  const cards = document.querySelectorAll('.carousel-card');
 
-  if (!track || !prevBtn || !nextBtn || !indicatorsContainer || cards.length === 0) return;
+  if (!track || !prevBtn || !nextBtn || !indicatorsContainer) return;
+
+  // 1. Fetch products from database
+  let products = [];
+  try {
+    products = await window.getDbProducts();
+  } catch (e) {
+    console.error("Failed to load products for carousel", e);
+  }
+
+  // 2. Filter featured products: any product with featured === true is shown!
+  const featuredProducts = products.filter(prod => prod.featured === true);
+
+  // 3. Render cards dynamically
+  const featuredSection = document.getElementById('featured');
+  if (featuredProducts.length > 0) {
+    track.innerHTML = '';
+    featuredProducts.forEach(prod => {
+      const card = document.createElement('div');
+      card.className = 'product-card carousel-card flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] flex flex-col group cursor-pointer bg-primary-container/40 p-4 border border-white/5 backdrop-blur-sm';
+      card.innerHTML = `
+        <div class="aspect-[3/4] overflow-hidden mb-6 rounded-[20px] shadow-md relative bg-[#E8DDD0]/10 flex items-center justify-center">
+            <img class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700" src="${prod.image}" alt="${prod.name}"/>
+        </div>
+        <div class="space-y-3 px-2 flex-grow flex flex-col justify-between">
+            <div class="flex justify-between items-baseline gap-2">
+                <h4 class="font-headline-sm text-headline-sm text-[#F8F5F0] leading-tight">${prod.name}</h4>
+                <span class="font-body-md text-body-md text-[#E8DDD1] flex-none">₹${prod.price.toLocaleString()}</span>
+            </div>
+            <p class="font-body-md text-body-sm text-[#E8DDD1]/80 line-clamp-2 leading-relaxed mt-2">${prod.description}</p>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        window.location.href = `collections.html?id=${prod.id}`;
+      });
+
+      track.appendChild(card);
+    });
+
+    // Ensure section is visible and nav controls are displayed
+    if (featuredSection) featuredSection.classList.remove('hidden');
+    if (prevBtn) prevBtn.style.display = '';
+    if (nextBtn) nextBtn.style.display = '';
+    if (indicatorsContainer) indicatorsContainer.style.display = '';
+  } else {
+    // Show a luxury placeholder if no featured products are available
+    if (featuredSection) featuredSection.classList.remove('hidden');
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (indicatorsContainer) indicatorsContainer.style.display = 'none';
+
+    track.innerHTML = `
+      <div class="w-full text-center py-16 text-[#F8F5F0]/60 font-body-md">
+        <span class="material-symbols-outlined text-4xl block mb-3 opacity-40">auto_awesome</span>
+        Featured objects will appear here once selected in the dashboard.
+      </div>
+    `;
+    return;
+  }
+
+  const cards = document.querySelectorAll('.carousel-card');
+  if (cards.length === 0) {
+    return;
+  }
 
   let currentIndex = 0;
   let visibleCardsCount = 1;
