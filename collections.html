@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script id="redirect-to-spa">
+      (function() {
+        const currentSearch = window.location.search;
+        let query = '?page=collections';
+        if (currentSearch) {
+          const searchParams = new URLSearchParams(currentSearch);
+          if (!searchParams.has('page')) {
+            searchParams.set('page', 'collections');
+          }
+          query = '?' + searchParams.toString();
+        }
+        window.location.replace('index.html' + query + window.location.hash);
+      })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeyronChain — The Collections</title>

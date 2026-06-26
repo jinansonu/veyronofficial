@@ -30,21 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const singleAddToCartBtn = document.getElementById('single-add-to-cart');
   const singleBuyNowBtn = document.getElementById('single-buy-now');
 
-  // Inquiry Modal Elements (Fallback for global use)
-  const inquiryModal = document.getElementById('inquiry-modal');
-  const closeInquiryModal = document.getElementById('close-inquiry-modal');
-  const inquiryForm = document.getElementById('inquiry-form');
-  const inquiryInterest = document.getElementById('inquiry-interest');
-  const inquirySuccess = document.getElementById('inquiry-success');
-
-  // Hamburger Menu Elements
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuLinks = document.querySelectorAll('.menu-link');
-
-  // Theme Toggle Elements
-  const themeToggle = document.getElementById('theme-toggle');
-
   // State Variables
   let activeCategory = "";
   let activeGender = "all";
@@ -52,60 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentProduct = null;
   let activeImgIndex = 0;
   let currentImagesList = [];
-
-  // Theme Initialization
-  const initTheme = () => {
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-      document.documentElement.classList.add('dark');
-      updateThemeIcon(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      updateThemeIcon(false);
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateThemeIcon(isDark);
-    });
-  };
-
-  const updateThemeIcon = (isDark) => {
-    const icon = themeToggle.querySelector('span');
-    if (icon) {
-      icon.textContent = isDark ? 'light_mode' : 'dark_mode';
-    }
-  };
-
-  // Hamburger toggle logic
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', () => {
-      const isOpened = mobileMenu.classList.contains('translate-y-0');
-      const icon = menuToggle.querySelector('span');
-      
-      if (isOpened) {
-        mobileMenu.classList.remove('translate-y-0');
-        mobileMenu.classList.add('-translate-y-full');
-        icon.textContent = 'menu';
-      } else {
-        mobileMenu.classList.remove('-translate-y-full');
-        mobileMenu.classList.add('translate-y-0');
-        icon.textContent = 'close';
-      }
-    });
-
-    menuLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('translate-y-0');
-        mobileMenu.classList.add('-translate-y-full');
-        const icon = menuToggle.querySelector('span');
-        if (icon) icon.textContent = 'menu';
-      });
-    });
-  }
 
   // Load and Render Products Grid List
   const renderFilteredProducts = async () => {
@@ -248,8 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const showAllCategoriesView = () => {
-    // URL cleanup without reload
-    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    // Keep page=collections parameter in the URL
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?page=collections';
     window.history.pushState({ path: cleanUrl }, '', cleanUrl);
 
     categoriesGridView.classList.remove('hidden');
@@ -438,40 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. INQUIRY MODAL FUNCTIONALITY (Concierge inquiry handles)
-  const openInquiry = (pieceName) => {
-    inquiryInterest.value = pieceName;
-    inquiryForm.classList.remove('hidden');
-    inquirySuccess.classList.add('hidden');
-    inquiryModal.classList.remove('hidden');
-    inquiryModal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  };
 
-  const closeInquiry = () => {
-    inquiryModal.classList.add('hidden');
-    inquiryModal.classList.remove('flex');
-    document.body.style.overflow = '';
-  };
-
-  if (closeInquiryModal) closeInquiryModal.addEventListener('click', closeInquiry);
-  
-  if (inquiryModal) {
-    inquiryModal.addEventListener('click', (e) => {
-      if (e.target === inquiryModal) closeInquiry();
-    });
-  }
-
-  if (inquiryForm) {
-    inquiryForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      inquiryForm.classList.add('hidden');
-      inquirySuccess.classList.remove('hidden');
-      setTimeout(() => {
-        closeInquiry();
-      }, 2500);
-    });
-  }
 
   // Bind action buttons inside single product view
   if (singleAddToCartBtn) {
@@ -599,7 +497,103 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Run initial triggers
-  initTheme();
-  checkUrlParams();
+  // 6. SPA ROUTING FUNCTIONALITY
+  const homepageView = document.getElementById('homepage-view');
+  const collectionsView = document.getElementById('collections-view');
+
+  const veyronRouter = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+
+    const isCollections = (params.get('page') === 'collections') || params.has('category') || params.has('id');
+
+    if (isCollections) {
+      if (homepageView) homepageView.classList.add('hidden');
+      if (collectionsView) collectionsView.classList.remove('hidden');
+
+      // Close mobile menu if open
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuToggle = document.getElementById('menu-toggle');
+      if (mobileMenu && mobileMenu.classList.contains('translate-y-0')) {
+        mobileMenu.classList.remove('translate-y-0');
+        mobileMenu.classList.add('-translate-y-full');
+        if (menuToggle) {
+          const icon = menuToggle.querySelector('span');
+          if (icon) icon.textContent = 'menu';
+        }
+      }
+
+      await checkUrlParams();
+    } else {
+      if (collectionsView) collectionsView.classList.add('hidden');
+      if (homepageView) homepageView.classList.remove('hidden');
+
+      // Close mobile menu if open
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuToggle = document.getElementById('menu-toggle');
+      if (mobileMenu && mobileMenu.classList.contains('translate-y-0')) {
+        mobileMenu.classList.remove('translate-y-0');
+        mobileMenu.classList.add('-translate-y-full');
+        if (menuToggle) {
+          const icon = menuToggle.querySelector('span');
+          if (icon) icon.textContent = 'menu';
+        }
+      }
+
+      // Scroll to hash target on homepage if any
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Expose to window for app.js or inline scripts
+  window.veyronRouter = veyronRouter;
+
+  // Intercept all link clicks for SPA feel
+  document.body.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    // Handle clicks that target homepage sections or collections
+    const isCollectionsLink = href.startsWith('collections.html');
+    const isHomepageSectionLink = href.startsWith('index.html') || href.startsWith('#');
+
+    if (isCollectionsLink || isHomepageSectionLink) {
+      e.preventDefault();
+
+      let targetUrl = href;
+      if (isCollectionsLink) {
+        const queryPart = href.includes('?') ? href.substring(href.indexOf('?')) : '?page=collections';
+        const urlParams = new URLSearchParams(queryPart);
+        if (!urlParams.has('page')) {
+          urlParams.set('page', 'collections');
+        }
+        targetUrl = window.location.pathname + '?' + urlParams.toString();
+      } else if (href.startsWith('index.html')) {
+        const hashIndex = href.indexOf('#');
+        const hashPart = hashIndex !== -1 ? href.substring(hashIndex) : '';
+        const queryIndex = href.indexOf('?');
+        const queryPart = (queryIndex !== -1 && queryIndex < hashIndex) ? href.substring(queryIndex, hashIndex) : '';
+        targetUrl = window.location.pathname + queryPart + hashPart;
+      }
+
+      window.history.pushState(null, '', targetUrl);
+      veyronRouter();
+    }
+  });
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', veyronRouter);
+
+  // Run initial router triggers
+  veyronRouter();
 });

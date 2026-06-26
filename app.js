@@ -13,10 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (headerLogoLink) {
     headerLogoLink.addEventListener('click', (e) => {
       e.preventDefault();
-      window.scrollTo(0, 0);
-      setTimeout(() => {
-        window.location.reload();
-      }, 50);
+      window.history.pushState(null, '', window.location.pathname);
+      if (window.veyronRouter) {
+        window.veyronRouter();
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   }
 
