@@ -551,37 +551,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const idParam = params.get('id');
     const catParam = params.get('category');
 
-    if (cachedProducts.length === 0) {
-      cachedProducts = await getDbProducts();
-    }
-
-    if (idParam) {
-      const product = cachedProducts.find(p => p.id === idParam);
-      if (product) {
-        activeCategory = product.category;
-        showSingleProductView(product);
-        return;
-      }
-    }
-    
-    // Map URL shorthand parameters
-    const validCategories = [
-      "neck chains fancy",
-      "finger rings",
-      "earrings",
-      "bracelet unisex",
-      "teeth braces fashion",
-      "watches not luxury"
-    ];
-
+    // 1. Map and transition to category instantly if present in URL
     if (catParam) {
-      // Direct exact match
-      if (validCategories.includes(catParam)) {
-        showCategoryView(catParam);
-        return;
-      }
-      
-      // Shorthand mapping
+      const validCategories = [
+        "neck chains fancy",
+        "finger rings",
+        "earrings",
+        "bracelet unisex",
+        "teeth braces fashion",
+        "watches not luxury"
+      ];
+
       const shorthandMap = {
         "chains": "neck chains fancy",
         "rings": "finger rings",
@@ -589,13 +569,33 @@ document.addEventListener('DOMContentLoaded', () => {
         "bracelets": "bracelet unisex",
         "braces": "teeth braces fashion",
         "teeth": "teeth braces fashion",
+        "teeth clips": "teeth braces fashion",
+        "teeth-clips": "teeth braces fashion",
         "watches": "watches not luxury"
       };
 
-      const mappedCat = shorthandMap[catParam.toLowerCase()];
+      const mappedCat = validCategories.includes(catParam) ? catParam : shorthandMap[catParam.toLowerCase()];
       if (mappedCat) {
         showCategoryView(mappedCat);
       }
+    }
+
+    // 2. Handle deep-linking to single product (needs database products fetched first)
+    if (idParam) {
+      if (cachedProducts.length === 0) {
+        cachedProducts = await getDbProducts();
+      }
+      const product = cachedProducts.find(p => p.id === idParam);
+      if (product) {
+        activeCategory = product.category;
+        showSingleProductView(product);
+      }
+    }
+
+    // Remove fast-route style tag so future transitions work correctly
+    const fastRouteStyle = document.getElementById('fast-route-style');
+    if (fastRouteStyle) {
+      fastRouteStyle.remove();
     }
   };
 
