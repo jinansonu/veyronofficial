@@ -510,6 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isCollections) {
       if (homepageView) homepageView.classList.add('hidden');
       if (collectionsView) collectionsView.classList.remove('hidden');
+      window.scrollTo(0, 0);
 
       // Close mobile menu if open
       const mobileMenu = document.getElementById('mobile-menu');
