@@ -115,7 +115,8 @@ const saveDbProduct = async (product) => {
       const db = firebase.firestore();
       await db.collection("products").doc(savedId).set(productData);
     } catch (e) {
-      console.warn("Firebase failed to save, writing to LocalStorage only:", e);
+      console.error("Firebase Firestore write failed:", e);
+      throw e;
     }
   }
 
@@ -138,7 +139,8 @@ const deleteDbProduct = async (productId) => {
       const db = firebase.firestore();
       await db.collection("products").doc(productId).delete();
     } catch (e) {
-      console.warn("Firebase failed to delete, deleting from LocalStorage only:", e);
+      console.error("Firebase Firestore delete failed:", e);
+      throw e;
     }
   }
 
