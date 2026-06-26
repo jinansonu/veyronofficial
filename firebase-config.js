@@ -79,7 +79,7 @@ const getDbProducts = async () => {
       category: "bracelet unisex",
       gender: "all",
       description: "Forged steel wire cuff bracelet. Flexible, modern, and built for everyone.",
-      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/continuous_bracelet.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/bracelet_cross_v2.png"
     },
     {
       id: "mock-5",
