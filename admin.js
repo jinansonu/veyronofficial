@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (isFirebaseConfigured()) {
       firebase.auth().onAuthStateChanged((user) => {
-        if (user && (user.email === 'salahudheennk2025@gmail.com' || user.email === 'abinshan27@gmail.com')) {
+        if (user && (user.email === 'salahudheennk2025@gmail.com' || user.email === 'abinshan27@gmail.com' || user.email === 'veyronchain@gmail.com')) {
           showDashboard(user.email);
         } else {
           if (user) {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await firebase.auth().signInWithPopup(provider);
         const user = result.user;
         
-        if (user.email !== 'salahudheennk2025@gmail.com' && user.email !== 'abinshan27@gmail.com') {
+        if (user.email !== 'salahudheennk2025@gmail.com' && user.email !== 'abinshan27@gmail.com' && user.email !== 'veyronchain@gmail.com') {
           loginError.textContent = "Access Denied: Only authorized administrators have privileges.";
           loginError.classList.remove('hidden');
           await firebase.auth().signOut();
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = row.getAttribute('data-email');
       mockGoogleModal.classList.add('hidden');
 
-      if (email === 'salahudheennk2025@gmail.com' || email === 'abinshan27@gmail.com') {
+      if (email === 'salahudheennk2025@gmail.com' || email === 'abinshan27@gmail.com' || email === 'veyronchain@gmail.com') {
         sessionStorage.setItem('admin_authenticated', 'true');
         sessionStorage.setItem('admin_email', email);
         showDashboard(email);
