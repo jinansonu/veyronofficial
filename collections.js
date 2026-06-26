@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isCollectionsLink || isHomepageSectionLink) {
       e.preventDefault();
 
-      let targetUrl = href;
+      let targetUrl = '';
       if (isCollectionsLink) {
         const queryPart = href.includes('?') ? href.substring(href.indexOf('?')) : '?page=collections';
         const urlParams = new URLSearchParams(queryPart);
@@ -578,12 +578,12 @@ document.addEventListener('DOMContentLoaded', () => {
           urlParams.set('page', 'collections');
         }
         targetUrl = window.location.pathname + '?' + urlParams.toString();
-      } else if (href.startsWith('index.html')) {
+      } else {
+        // It is a homepage section link (e.g. #manifesto, index.html#journal, index.html, #, etc.)
+        // We must clear the query parameters so we exit collections mode and show homepage sections
         const hashIndex = href.indexOf('#');
         const hashPart = hashIndex !== -1 ? href.substring(hashIndex) : '';
-        const queryIndex = href.indexOf('?');
-        const queryPart = (queryIndex !== -1 && queryIndex < hashIndex) ? href.substring(queryIndex, hashIndex) : '';
-        targetUrl = window.location.pathname + queryPart + hashPart;
+        targetUrl = window.location.pathname + hashPart;
       }
 
       window.history.pushState(null, '', targetUrl);
