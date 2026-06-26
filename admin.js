@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (isFirebaseConfigured()) {
       firebase.auth().onAuthStateChanged((user) => {
-        if (user && user.email === 'salahudheennk2025@gmail.com') {
+        if (user && (user.email === 'salahudheennk2025@gmail.com' || user.email === 'abinshan27@gmail.com')) {
           showDashboard(user.email);
         } else {
           if (user) {
@@ -64,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // Offline/Local mock simulation mode
       if (isMockAuth) {
-        showDashboard('salahudheennk2025@gmail.com');
+        const mockEmail = sessionStorage.getItem('admin_email') || 'salahudheennk2025@gmail.com';
+        showDashboard(mockEmail);
       } else {
         showLogin();
       }
@@ -93,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await firebase.auth().signInWithPopup(provider);
         const user = result.user;
         
-        if (user.email !== 'salahudheennk2025@gmail.com') {
-          loginError.textContent = "Access Denied: Only salahudheennk2025@gmail.com has administrative privileges.";
+        if (user.email !== 'salahudheennk2025@gmail.com' && user.email !== 'abinshan27@gmail.com') {
+          loginError.textContent = "Access Denied: Only authorized administrators have privileges.";
           loginError.classList.remove('hidden');
           await firebase.auth().signOut();
         }
@@ -114,11 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = row.getAttribute('data-email');
       mockGoogleModal.classList.add('hidden');
 
-      if (email === 'salahudheennk2025@gmail.com') {
+      if (email === 'salahudheennk2025@gmail.com' || email === 'abinshan27@gmail.com') {
         sessionStorage.setItem('admin_authenticated', 'true');
+        sessionStorage.setItem('admin_email', email);
         showDashboard(email);
       } else {
-        loginError.textContent = "Access Denied: Only salahudheennk2025@gmail.com has administrative privileges.";
+        loginError.textContent = "Access Denied: Only authorized administrators have privileges.";
         loginError.classList.remove('hidden');
       }
     });
