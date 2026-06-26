@@ -61,7 +61,7 @@ const getDbProducts = async () => {
       category: "finger rings",
       gender: "female",
       description: "Fine yellow gold band set, featuring a micro-pavé finish and tactile ribbed details.",
-      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/gold_rings.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/gold_rings_v2.png"
     },
     {
       id: "mock-3",
