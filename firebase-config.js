@@ -52,7 +52,7 @@ const getDbProducts = async () => {
       category: "neck chains fancy",
       gender: "all",
       description: "A fancy double-lock Cuban link chain crafted in premium silver, hand-assembled.",
-      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/silver_chain.png"
+      image: "https://raw.githubusercontent.com/jinansonu/veyronofficial/main/assets/neck_chain_cross.png"
     },
     {
       id: "mock-2",
