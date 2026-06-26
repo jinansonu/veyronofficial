@@ -101,9 +101,9 @@
           style.id = 'fast-route-style';
           let css = ' #homepage-view { display: none !important; } #collections-view { display: block !important; } #categories-grid-view { display: none !important; }';
           if (params.has('id')) {
-            css += ' #single-product-view { display: block !important; }';
+            css += ' #single-product-view { display: block !important; } #collections-title-header { display: none !important; }';
           } else if (params.has('category')) {
-            css += ' #product-detail-view { display: block !important; }';
+            css += ' #product-detail-view { display: block !important; } #collections-title-header { display: none !important; }';
           } else {
             css += ' #categories-grid-view { display: grid !important; }';
           }
@@ -702,7 +702,7 @@
         </div>
   
         <!-- Section Header -->
-        <div class="text-center mb-8">
+        <div id="collections-title-header" class="text-center mb-8">
             <h1 class="font-display-lg text-display-lg-mobile md:text-5xl leading-tight text-on-surface uppercase select-none">THE COLLECTIONS</h1>
             <div class="hairline w-24 mx-auto opacity-30 mt-2"></div>
         </div>

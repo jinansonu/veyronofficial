@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // DOM Elements
   const categoriesGridView = document.getElementById('categories-grid-view');
+  const collectionsTitleHeader = document.getElementById('collections-title-header');
   const productDetailView = document.getElementById('product-detail-view');
   const activeCategoryTitle = document.getElementById('active-category-title');
   const backToCategoriesBtn = document.getElementById('back-to-categories');
@@ -173,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoriesGridView.classList.add('hidden');
     productDetailView.classList.remove('hidden');
     singleProductView.classList.add('hidden');
+    if (collectionsTitleHeader) collectionsTitleHeader.classList.add('hidden');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     renderFilteredProducts();
@@ -186,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoriesGridView.classList.remove('hidden');
     productDetailView.classList.add('hidden');
     singleProductView.classList.add('hidden');
+    if (collectionsTitleHeader) collectionsTitleHeader.classList.remove('hidden');
     activeCategory = "";
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -242,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoriesGridView.classList.add('hidden');
     productDetailView.classList.add('hidden');
     singleProductView.classList.remove('hidden');
+    if (collectionsTitleHeader) collectionsTitleHeader.classList.add('hidden');
 
     // Populate contents
     singleTitle.textContent = product.name;
