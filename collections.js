@@ -178,6 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
     singleProductView.classList.add('hidden');
     if (collectionsTitleHeader) collectionsTitleHeader.classList.add('hidden');
 
+    const collectionsArrowBack = document.getElementById('collections-arrow-back');
+    if (collectionsArrowBack) collectionsArrowBack.classList.add('hidden');
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
     renderFilteredProducts();
   };
@@ -191,6 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
     productDetailView.classList.add('hidden');
     singleProductView.classList.add('hidden');
     if (collectionsTitleHeader) collectionsTitleHeader.classList.remove('hidden');
+
+    const collectionsArrowBack = document.getElementById('collections-arrow-back');
+    if (collectionsArrowBack) collectionsArrowBack.classList.remove('hidden');
+
     activeCategory = "";
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -248,6 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
     productDetailView.classList.add('hidden');
     singleProductView.classList.remove('hidden');
     if (collectionsTitleHeader) collectionsTitleHeader.classList.add('hidden');
+
+    const collectionsArrowBack = document.getElementById('collections-arrow-back');
+    if (collectionsArrowBack) collectionsArrowBack.classList.add('hidden');
 
     // Populate contents
     singleTitle.textContent = product.name;
@@ -454,6 +464,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const idParam = params.get('id');
     const catParam = params.get('category');
+
+    if (!idParam && !catParam) {
+      showAllCategoriesView();
+      // Remove fast-route style tag so future transitions work correctly
+      const fastRouteStyle = document.getElementById('fast-route-style');
+      if (fastRouteStyle) {
+        fastRouteStyle.remove();
+      }
+      return;
+    }
 
     // 1. Map and transition to category instantly if present in URL
     if (catParam) {
