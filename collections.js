@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // View Navigation Helpers
-  const showCategoryView = (categoryCode) => {
+  const showCategoryView = (categoryCode, keepFilters = false) => {
     activeCategory = categoryCode;
     
     // Update Title text
@@ -164,11 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryQuickSelect.value = categoryCode;
     
     // Reset filters
-    activeGender = "all";
-    genderFilterBtns.forEach(btn => {
-      if (btn.getAttribute('data-gender') === 'all') btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
+    if (!keepFilters) {
+      activeGender = "all";
+      genderFilterBtns.forEach(btn => {
+        if (btn.getAttribute('data-gender') === 'all') btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+    }
 
     // View toggle animation
     categoriesGridView.classList.add('hidden');
@@ -349,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bind Back from Single Product View to Products Grid List
   backToProductsBtn.addEventListener('click', () => {
     if (activeCategory) {
-      showCategoryView(activeCategory);
+      showCategoryView(activeCategory, true);
       // Clean query string
       const catUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?category=${activeCategory}`;
       window.history.pushState({ path: catUrl }, '', catUrl);
