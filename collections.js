@@ -263,6 +263,30 @@ document.addEventListener('DOMContentLoaded', () => {
     singleTitle.textContent = product.name;
     singleCategoryTag.textContent = product.category.replace(/ un-?sex| not luxury/gi, '');
     
+    // Dynamic badges (Anti-Tarnish & Stainless Steel)
+    const singleBadgesContainer = document.getElementById('single-badges-container');
+    if (singleBadgesContainer) {
+      singleBadgesContainer.innerHTML = '';
+      
+      const isAntiTarnish = product.antiTarnish !== false;
+      const isStainlessSteel = product.stainlessSteel !== false;
+
+      if (isAntiTarnish) {
+        singleBadgesContainer.innerHTML += `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-label-caps tracking-wider uppercase border border-[#4A372D]/20 text-[#4A372D]/90 bg-[#4A372D]/5 shadow-sm">
+            <span class="material-symbols-outlined text-[13px] font-bold">shield</span> Anti-Tarnish
+          </span>
+        `;
+      }
+      if (isStainlessSteel) {
+        singleBadgesContainer.innerHTML += `
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-label-caps tracking-wider uppercase border border-[#4A372D]/20 text-[#4A372D]/90 bg-[#4A372D]/5 shadow-sm">
+            <span class="material-symbols-outlined text-[13px] font-bold">layers</span> Stainless Steel
+          </span>
+        `;
+      }
+    }
+    
     if (product.originalPrice && product.offerPercentage) {
       singlePrice.innerHTML = `
         <div class="flex items-baseline gap-3 flex-wrap">

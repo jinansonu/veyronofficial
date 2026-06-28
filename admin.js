@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const prodOriginalPrice = document.getElementById('prod-original-price');
   const prodOfferPercentage = document.getElementById('prod-offer-percentage');
   const prodFeatured = document.getElementById('prod-featured');
+  const prodAntiTarnish = document.getElementById('prod-anti-tarnish');
+  const prodStainlessSteel = document.getElementById('prod-stainless-steel');
   const prodImageFile = document.getElementById('prod-image-file');
   const fileLabel = document.getElementById('file-label');
   const imagePreviewContainer = document.getElementById('image-preview-container');
@@ -339,6 +341,8 @@ document.addEventListener('DOMContentLoaded', () => {
     prodOriginalPrice.value = product.originalPrice || "";
     prodOfferPercentage.value = product.offerPercentage || "";
     prodFeatured.checked = !!product.featured;
+    prodAntiTarnish.checked = product.antiTarnish !== false;
+    prodStainlessSteel.checked = product.stainlessSteel !== false;
 
     // Set existing images list
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
@@ -371,6 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     productForm.reset();
     prodFeatured.checked = false;
+    prodAntiTarnish.checked = true;
+    prodStainlessSteel.checked = true;
     renderPreviewGrid();
 
     cancelEditBtn.classList.add('hidden');
@@ -469,7 +475,9 @@ document.addEventListener('DOMContentLoaded', () => {
       images: finalImageUrls,   // array of all image URLs
       originalPrice: prodOriginalPrice.value ? parseFloat(prodOriginalPrice.value) : null,
       offerPercentage: prodOfferPercentage.value ? parseFloat(prodOfferPercentage.value) : null,
-      featured: prodFeatured.checked
+      featured: prodFeatured.checked,
+      antiTarnish: prodAntiTarnish.checked,
+      stainlessSteel: prodStainlessSteel.checked
     };
 
     if (editingProductId) {
