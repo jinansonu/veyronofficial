@@ -341,8 +341,8 @@ document.addEventListener('DOMContentLoaded', () => {
     prodOriginalPrice.value = product.originalPrice || "";
     prodOfferPercentage.value = product.offerPercentage || "";
     prodFeatured.checked = !!product.featured;
-    prodAntiTarnish.checked = product.antiTarnish !== false;
-    prodStainlessSteel.checked = product.stainlessSteel !== false;
+    prodAntiTarnish.checked = !!product.antiTarnish;
+    prodStainlessSteel.checked = !!product.stainlessSteel;
 
     // Set existing images list
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
@@ -375,8 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     productForm.reset();
     prodFeatured.checked = false;
-    prodAntiTarnish.checked = true;
-    prodStainlessSteel.checked = true;
+    prodAntiTarnish.checked = false;
+    prodStainlessSteel.checked = false;
     renderPreviewGrid();
 
     cancelEditBtn.classList.add('hidden');

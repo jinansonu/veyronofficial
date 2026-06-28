@@ -268,8 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (singleBadgesContainer) {
       singleBadgesContainer.innerHTML = '';
       
-      const isAntiTarnish = product.antiTarnish !== false;
-      const isStainlessSteel = product.stainlessSteel !== false;
+      const isAntiTarnish = product.antiTarnish === true;
+      const isStainlessSteel = product.stainlessSteel === true;
 
       if (isAntiTarnish) {
         singleBadgesContainer.innerHTML += `
