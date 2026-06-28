@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       const encodedMsg = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/919946601662?text=${encodedMsg}`;
+      const whatsappUrl = `https://wa.me/919946646102?text=${encodedMsg}`;
       window.open(whatsappUrl, '_blank');
     });
   }
